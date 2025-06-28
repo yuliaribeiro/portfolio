@@ -40,6 +40,7 @@ This project uses a modern and efficient front-end stack designed for performanc
 
 ### 🎨 Styling
 - **[Tailwind CSS](https://tailwindcss.com/)** – Utility-first CSS framework for fast and responsive UI development.
+- **[Lucide](https://lucide.dev/)** - Open-source icon library.
 
 ### 🧹 Code Quality
 - **[ESLint](https://eslint.org/)** – Linter to enforce consistent code style and catch common bugs.
