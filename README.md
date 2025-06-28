@@ -6,6 +6,8 @@ Feel free to explore the code and documentation to better understand my developm
 
 If you're evaluating my work, this README will guide you through the most relevant parts of the codebase, agile methodology applied and how to find the information.
 
+This portfolie ensures the mobile-first layout concept.
+
 Let's Get Start!
 
 ## 📌 Agile Methodology & Project Organization
