@@ -1,1 +1,66 @@
 @import "tailwindcss";
+
+:root {
+  /* Teal */
+  --teal-400: #2a9d8f;
+  --teal-700: #1b7a77;
+  --teal-800: #264653;
+
+  /* Blue */
+  --blue-900: #1d3557;
+
+  /* Orange */
+  --orange-400: #f29984 --orange-500: #e76f51;
+  --orange-600: #d94f33;
+  --orange-700: #c2513c;
+
+  /* Yellow */
+  --yellow-300: #e9c46a;
+
+  /* Neutral */
+  --neutral-50: #ffffff;
+  --neutral-100: #f5f5f5;
+  --neutral-400: #b0b0b0;
+  --neutral-600: #5c5c5c;
+  --neutral-900: #121212;
+  --neutral-950: #1a1a1a;
+
+  /* Fonts */
+  --playfair: "Playfair Display", serif;
+  --sans: "Source Sans 3", sans-serif;
+}
+
+@theme {
+  /* Colors for light theme */
+  --color-accent: var(--yellow-300);
+  --color-brand-primary: var(--teal-800);
+  --color-brand-secondary: var(--teal-400);
+  --color-error: var(--orange-500);
+  --color-error-dark: var(--color-orange-700);
+  --color-foreground: var(--neutral-950);
+  --color-foreground-muted: var(--neutral-600);
+  --color-surface: var(--neutral-100);
+  --color-surface-base: var(--neutral-50);
+
+  --font-playfair: var(--playfair);
+  --font-sans: var(--sans);
+}
+
+// Colors for dark theme
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-accent: var(--yellow-300);
+    --color-brand-primary: var(--blue-900);
+    --color-brand-secondary: var(--teal-700);
+    --color-error: var(--orange-400);
+    --color-error-dark: var(--color-orange-600);
+    --color-foreground: var(--neutral-100);
+    --color-foreground-muted: var(--neutral-400);
+    --color-surface: var(--neutral-950);
+    --color-surface-base: var(--neutral-900);
+  }
+}
+
+body {
+  font-family: var(--sans);
+}
