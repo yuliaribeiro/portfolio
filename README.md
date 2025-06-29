@@ -58,7 +58,6 @@ If you'd like to clone and run this project locally, please make sure you have t
 - **Node.js v22+** (tested with Node.js **v22.13.0**)
 - **npm v10+** (tested with npm **v10.9.2**)
 
-
 ### 📦 Installation Steps
 
 1. Clone the repository:
@@ -67,11 +66,43 @@ If you'd like to clone and run this project locally, please make sure you have t
    
 2. Install dependecies:
    ```bash
-   cd ju-ribeiro
+   cd packages
    npm install
 
 3. Start the development server:
    ```bash
    npm run dev
+   
 
-Enjoy!
+### 🧠 How This Project Works
+This project is organized to reflect a professional and collaborative development workflow, where tasks are clearly tracked, documented, and linked to their corresponding branches and implementations.
+
+### 📌 Task & Branch Structure
+Each task in the [Project Board](https://github.com/users/yuliaribeiro/projects/3) is:
+
+* Linked to a dedicated GitHub branch, which contains the implementation of that specific task or feature.
+* Fully documented — developers and reviewers can find relevant information and decisions directly in the task issue or linked documentation file.
+
+This ensures traceability, allowing anyone to understand why and how a piece of code was written.
+
+
+### 🌿 Branching Strategy
+The project follows a simple and clean Git branching model:
+
+**main:**
+This is the production branch. It always reflects the latest stable version of the project.
+
+**development:**
+This is the integration branch. All task branches are merged here once their work is completed and reviewed.
+It serves as a staging area before deployment to main.
+
+**task branches:**
+Every task has its own branch, created from **development.** The naming follows this pattern:
+<br />
+`[task-number]-[short-description]`
+
+### 🔁 Merge Workflow
+1. A task is created and assigned a number.
+2. A branch is created from development, following the task number in its name.
+3. After the work is done, a pull request is opened to merge the branch into development.
+4. Once development is stable and ready for production, it is merged into main.
