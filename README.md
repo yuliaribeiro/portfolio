@@ -99,7 +99,7 @@ It serves as a staging area before deployment to main.
 **task branches:**
 Every task has its own branch, created from **development.** The naming follows this pattern:
 <br />
-`[task-number]-[short-description]`
+`[feature]-[short-description]`
 
 ### 🔁 Merge Workflow
 1. A task is created and assigned a number.
