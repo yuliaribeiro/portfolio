@@ -1,14 +1,14 @@
 # 🌱 Ju's Portfolio - Welcome
 
-Hi There! My name is Ju, this repository is dedicated to build my portfolio.
+Hi there! I'm Ju, and this repository is dedicated to building my personal developer portfolio.
 
-Feel free to explore the code and documentation to better understand my development workflow, problem-solving approach, and coding standards. 
+Feel free to explore the code and documentation to better understand my development workflow, problem-solving approach, and coding standards.
 
-If you're evaluating my work, this README will guide you through the most relevant parts of the codebase, agile methodology applied and how to find the information.
+If you're evaluating my work, this README will guide you through the most relevant parts of the codebase, the agile methodology applied, and how to navigate the structure efficiently.
 
-This portfolie ensures the mobile-first layout concept.
+This portfolio follows the **mobile-first** design principle and includes **CI pipelines with GitHub Actions** to ensure code quality through automated tests and lint checks on every pull request.
 
-Let's Get Start!
+Let’s get started!
 
 ## 📌 Agile Methodology & Project Organization
 This project follows Agile principles to guide the development process in an iterative and incremental way. All planning and task tracking are managed using [GitHub Projects](https://github.com/users/yuliaribeiro/projects/3) — feel free to explore the board to follow the progress.
