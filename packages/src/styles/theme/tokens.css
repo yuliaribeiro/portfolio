@@ -1,0 +1,27 @@
+@theme {
+  /* -------- COLOR VARIABLES -------- */
+  /* Teal */
+  --color-teal-400: #2a9d8f;
+  --color-teal-700: #1b7a77;
+  --color-teal-800: #264653;
+
+  /* Blue */
+  --color-blue-900: #1d3557;
+
+  /* Orange */
+  --color-orange-400: #f29984;
+  --color-orange-500: #e76f51;
+  --color-orange-600: #d94f33;
+  --color-orange-700: #c2513c;
+
+  /* Yellow */
+  --color-yellow-300: #e9c46a;
+
+  /* Neutral */
+  --color-neutral-50: #ffffff;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-400: #b0b0b0;
+  --color-neutral-600: #5c5c5c;
+  --color-neutral-900: #121212;
+  --color-neutral-950: #1a1a1a;
+}
