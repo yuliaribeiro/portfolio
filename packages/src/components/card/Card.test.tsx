@@ -45,7 +45,7 @@ describe("Card", () => {
     // Card classes
     const card = getByTestId("card")
     expect(card).toHaveClass(
-      "card-animation",
+      "card-hover-effect",
       "animate-fade-in-up",
       "overflow-hidden",
       "rounded-3xl",
@@ -89,7 +89,7 @@ describe("Card", () => {
 
     expect(getByTestId("card")).toHaveClass(
       "custom-card-class",
-      "card-animation"
+      "card-hover-effect"
     )
     expect(getByTestId("card-header")).toHaveClass(
       "custom-header-class",

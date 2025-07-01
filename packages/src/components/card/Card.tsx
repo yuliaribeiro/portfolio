@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "card-animation animate-fade-in-up overflow-hidden rounded-3xl p-4",
+      "card-hover-effect animate-fade-in-up overflow-hidden rounded-3xl p-4",
       className
     )}
     {...props}
