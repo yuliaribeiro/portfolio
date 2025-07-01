@@ -139,7 +139,7 @@ describe("Button", () => {
       </Button>
     )
 
-    const link = screen.getByRole("link")
+    const link = getByRole("link")
     expect(link).toHaveClass(
       "inline-flex",
       "items-center",
@@ -187,7 +187,7 @@ describe("Button", () => {
       ({ variant, expectedClasses }) => {
         getRenderer({ variant }, variant)
 
-        const button = screen.getByRole("button")
+        const button = getByRole("button")
         expect(button).toHaveClass(...expectedClasses)
       }
     )
@@ -222,7 +222,7 @@ describe("Button", () => {
       ({ size, expectedClasses }) => {
         getRenderer({ size }, size)
 
-        const button = screen.getByRole("button")
+        const button = getByRole("button")
         expect(button).toHaveClass(...expectedClasses)
       }
     )
