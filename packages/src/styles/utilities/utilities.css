@@ -1,0 +1,13 @@
+@layer base {
+  .default-button-animation {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+
+  .outline-button-animation {
+    @apply hover:bg-brand-primary hover:!text-white;
+  }
+
+  .link-button-animation {
+    @apply text-foreground-muted hover:!text-accent transition-colors duration-300;
+  }
+}
