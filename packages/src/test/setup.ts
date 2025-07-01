@@ -3,5 +3,5 @@ import { vi } from "vitest"
 
 // Mock do cn utility
 vi.mock("@/utils", () => ({
-  cn: (...classes: any[]) => classes.filter(Boolean).join(" "),
+  cn: (...classes: string[]) => classes.filter(Boolean).join(" "),
 }))

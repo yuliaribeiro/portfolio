@@ -7,9 +7,15 @@ import React from "react"
 
 // Radix UI Slot Mock
 vi.mock("@radix-ui/react-slot", () => ({
-  Slot: ({ children, ...props }: any) => {
+  Slot: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode
+    [key: string]: unknown
+  }) => {
     if (React.isValidElement(children)) {
-      const childProps = children.props || {}
+      const childProps = (children.props as Record<string, unknown>) || {}
       return React.cloneElement(children, { ...props, ...childProps })
     }
     return <div {...props}>{children}</div>
