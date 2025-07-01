@@ -81,12 +81,28 @@ describe("Button", () => {
 
     const button = getByRole("button", { name: /click me/i })
     expect(button).toHaveClass(
-      "outline-button-animation",
+      "button-outline-hover",
       "rounded-md",
       "px-2",
       "py-1",
       "custom-class"
     )
+  })
+
+  it("should apply hover effect when hoverEffect is true", () => {
+    getRenderer({ hoverEffect: true })
+
+    const button = getByRole("button", { name: /click me/i })
+    expect(button).toHaveClass("button-hover-effect")
+    expect(button).not.toHaveClass("hover:brightness-115")
+  })
+
+  it("should apply brightness hover when hoverEffect is false", () => {
+    getRenderer({ hoverEffect: false })
+
+    const button = getByRole("button", { name: /click me/i })
+    expect(button).not.toHaveClass("button-hover-effect")
+    expect(button).toHaveClass("hover:brightness-115")
   })
 
   it("should handle click events", async () => {
@@ -99,6 +115,50 @@ describe("Button", () => {
     await user.click(button)
 
     expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it("should handle multiple event handlers", async () => {
+    const handleClick = vi.fn()
+    const handleMouseEnter = vi.fn()
+    const handleMouseLeave = vi.fn()
+    const handleFocus = vi.fn()
+    const handleBlur = vi.fn()
+    const user = userEvent.setup()
+
+    getRenderer({
+      onClick: handleClick,
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave,
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+    })
+
+    const button = getByRole("button", { name: /click me/i })
+
+    await user.hover(button)
+    expect(handleMouseEnter).toHaveBeenCalledTimes(1)
+
+    await user.unhover(button)
+    expect(handleMouseLeave).toHaveBeenCalledTimes(1)
+
+    await user.click(button)
+    expect(handleClick).toHaveBeenCalledTimes(1)
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+
+    await user.tab()
+    expect(handleBlur).toHaveBeenCalledTimes(1)
+  })
+
+  it("should not trigger click when disabled", async () => {
+    const handleClick = vi.fn()
+    const user = userEvent.setup()
+
+    getRenderer({ onClick: handleClick, disabled: true })
+
+    const button = getByRole("button", { name: /click me/i })
+    await user.click(button)
+
+    expect(handleClick).not.toHaveBeenCalled()
   })
 
   it("should passe through HTML button attributes", () => {
@@ -167,7 +227,7 @@ describe("Button", () => {
       {
         variant: "outline" as const,
         expectedClasses: [
-          "outline-button-animation",
+          "button-outline-hover",
           "border",
           "border-2",
           "border-brand-primary",
@@ -177,7 +237,7 @@ describe("Button", () => {
       },
       {
         variant: "link" as const,
-        expectedClasses: ["p-0", "link-button-animation"],
+        expectedClasses: ["button-link-hover", "p-0", "hover:scale-none"],
         description: "link variant",
       },
     ]
@@ -212,7 +272,7 @@ describe("Button", () => {
       },
       {
         size: "icon" as const,
-        expectedClasses: ["rounded-xl", "p-3"],
+        expectedClasses: ["rounded-xl", "px-2", "py-2.5"],
         description: "icon size",
       },
     ]
