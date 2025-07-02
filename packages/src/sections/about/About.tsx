@@ -9,6 +9,8 @@ type AboutSectionContent = {
     descriptions: string[]
   }
   qrCodeInfo: {
+    imageSrc: string
+    imageAlt: string
     title: string
     description: string
     alternativeText: string
@@ -35,8 +37,8 @@ export const About = ({ data }: AboutProps) => {
               <div className="mb-8">
                 <div className="border-accent mx-auto h-64 w-64 rounded-2xl border-2 bg-white p-6 shadow-lg">
                   <img
-                    src="/images/qr-code-download.png"
-                    alt="QR Code to download curriculum"
+                    src={qrCodeInfo.imageSrc}
+                    alt={qrCodeInfo.imageAlt}
                     className="h-full w-full object-contain"
                   />
                 </div>

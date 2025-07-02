@@ -11,6 +11,8 @@ export function getMockAboutData(overrides = {}) {
       ],
     },
     qrCodeInfo: {
+      imageSrc: "/images/qr-code-download.png",
+      imageAlt: "QR Code to download curriculum",
       title: "Quick Download",
       description:
         "Scan the QR code to download my curriculum vitae instantly.",
