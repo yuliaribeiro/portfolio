@@ -1,0 +1,43 @@
+@layer base {
+  /* Button Effects */
+  .button-hover-effect {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl;
+  }
+  .button-outline-hover {
+    @apply hover:bg-brand-primary hover:!text-white;
+  }
+  .button-link-hover {
+    @apply text-foreground-muted hover:!text-accent transition-colors duration-300;
+  }
+
+  /* Card Effect */
+  .card-hover-effect {
+    @apply bg-surface-base shadow-xl transition-all duration-500 hover:scale-105 hover:transform hover:shadow-2xl;
+  }
+
+  /* Navbar Effects */
+  .navbar-backdrop {
+    @apply bg-surface-base/50 backdrop-blur-md transition-all duration-300;
+  }
+  .navbar-item-hover {
+    @apply hover:!text-accent relative transition-all duration-300;
+  }
+  .navbar-item-decorator {
+    @apply bg-accent absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full;
+  }
+}
+
+/* Text Gradient Effects */
+@layer components {
+  .text-gradient-primary {
+    background-image: linear-gradient(
+      135deg,
+      var(--color-brand-primary),
+      var(--color-brand-secondary)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
