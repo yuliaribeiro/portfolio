@@ -171,8 +171,8 @@ describe("Home", () => {
       const primaryButton = getByRole("button", { name: "Primary Action" })
       const secondaryButton = getByRole("button", { name: "Secondary Action" })
 
-      expect(mockHero.primaryAction.onClick).not.toHaveBeenCalled
-      expect(mockHero.secondaryAction.onClick).not.toHaveBeenCalled
+      expect(mockHero.primaryAction.onClick).not.toHaveBeenCalled()
+      expect(mockHero.secondaryAction.onClick).not.toHaveBeenCalled()
 
       await user.click(primaryButton)
       await user.click(secondaryButton)
