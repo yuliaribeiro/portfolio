@@ -210,6 +210,21 @@ describe("About Component", () => {
       expect(qrImage).toBeInTheDocument()
     })
 
+    it("should render with custom image src and alt text", () => {
+      const customData = getMockAboutData({
+        qrCodeInfo: {
+          ...mockData.qrCodeInfo,
+          imageSrc: "/test/custom-qr.jpg",
+          imageAlt: "Custom QR code for testing",
+        },
+      })
+
+      getRenderer({ data: customData })
+
+      const qrImage = screen.getByAltText("Custom QR code for testing")
+      expect(qrImage).toHaveAttribute("src", "/test/custom-qr.jpg")
+    })
+
     it("should have accessible button", () => {
       getRenderer({ data: mockData })
 
