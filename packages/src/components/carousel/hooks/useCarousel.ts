@@ -1,100 +1,84 @@
-import { useCallback, useEffect, useState } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 
-export type Slide = {
-  id: number
-  title: string
-  content: string
-  color: string
+export type TechItem = {
+  name: string
+  icon: string
+  category: string
 }
 
 type UseCarouselOptions = {
-  slides: Slide[]
-  autoPlayInterval?: number
-  initialSlide?: number
-  initialAutoPlay?: boolean
+  autoplay?: boolean
+  interval?: number
 }
 
-type UseCarouselReturn = {
-  currentSlide: number
-  isAutoPlaying: boolean
-  totalSlides: number
-  goToSlide: (index: number) => void
-  nextSlide: () => void
-  prevSlide: () => void
-  toggleAutoPlay: () => void
-  handleKeyDown: (event: React.KeyboardEvent) => void
-}
+export function useCarousel(
+  items: TechItem[],
+  options: UseCarouselOptions = {}
+) {
+  const { autoplay = false, interval = 4000 } = options
+  const itemsPerSlide = 7
 
-export function useCarousel({
-  slides,
-  autoPlayInterval = 4000,
-  initialSlide = 0,
-  initialAutoPlay = true,
-}: UseCarouselOptions): UseCarouselReturn {
-  const [currentSlide, setCurrentSlide] = useState(initialSlide)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(initialAutoPlay)
+  const totalSlides = Math.ceil(items.length / itemsPerSlide)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const autoplayRef = useRef<NodeJS.Timeout | null>(null)
+  const isPausedRef = useRef(false)
 
-  const totalSlides = slides.length
+  const getCurrentSlideItems = useMemo(() => {
+    const start = currentSlide * itemsPerSlide
+    const end = start + itemsPerSlide
+    return items.slice(start, end)
+  }, [currentSlide, items, itemsPerSlide])
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (index >= 0 && index < totalSlides) {
-        setCurrentSlide(index)
-      }
-    },
-    [totalSlides]
-  )
-
-  const nextSlide = useCallback(() => {
+  function nextSlide() {
     setCurrentSlide((prev) => (prev + 1) % totalSlides)
-  }, [totalSlides])
+  }
 
-  const prevSlide = useCallback(() => {
+  function prevSlide() {
     setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides)
-  }, [totalSlides])
+  }
 
-  const toggleAutoPlay = useCallback(() => {
-    setIsAutoPlaying((prev) => !prev)
-  }, [])
+  function pauseAutoplay() {
+    isPausedRef.current = true
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current)
+      autoplayRef.current = null
+    }
+  }
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowLeft":
-          event.preventDefault()
-          prevSlide()
-          break
-        case "ArrowRight":
-          event.preventDefault()
-          nextSlide()
-          break
-        case " ":
-          event.preventDefault()
-          toggleAutoPlay()
-          break
-        default:
-          break
-      }
-    },
-    [nextSlide, prevSlide, toggleAutoPlay]
-  )
+  function resumeAutoplay() {
+    if (!autoplay || !isPausedRef.current) return
 
-  // Auto-play effect
+    isPausedRef.current = false
+    autoplayRef.current = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides)
+    }, interval)
+  }
+
   useEffect(() => {
-    if (!isAutoPlaying) return
+    if (autoplay) {
+      autoplayRef.current = setInterval(() => {
+        if (!isPausedRef.current) {
+          setCurrentSlide((prev) => (prev + 1) % totalSlides)
+        }
+      }, interval)
+    }
 
-    const interval = setInterval(nextSlide, autoPlayInterval)
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, nextSlide, autoPlayInterval])
+    return () => {
+      if (autoplayRef.current) {
+        clearInterval(autoplayRef.current)
+        autoplayRef.current = null
+      }
+    }
+  }, [autoplay, interval, totalSlides])
 
   return {
     currentSlide,
-    isAutoPlaying,
     totalSlides,
-    goToSlide,
+    getCurrentSlideItems,
+    setCurrentSlide,
     nextSlide,
     prevSlide,
-    toggleAutoPlay,
-    handleKeyDown,
+    pauseAutoplay,
+    resumeAutoplay,
   }
 }
