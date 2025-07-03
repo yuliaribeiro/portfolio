@@ -4,10 +4,12 @@ import type { TechItem } from "./hooks/useCarousel"
 import { Carousel } from "./Carousel"
 import type { ComponentProps } from "react"
 import { mockItems } from "./utils/getMockCarousel"
+import type { Badge } from "../../../components/badge/Badge"
+import { type ChevronRight, type ChevronLeft } from "lucide-react"
 
 // Mock the Badge component
 vi.mock("../badge/Badge", () => ({
-  Badge: ({ children, className, ...props }: any) => (
+  Badge: ({ children, className, ...props }: ComponentProps<typeof Badge>) => (
     <span className={className} {...props}>
       {children}
     </span>
@@ -16,12 +18,12 @@ vi.mock("../badge/Badge", () => ({
 
 // Mock lucide-react icons
 vi.mock("lucide-react", () => ({
-  ChevronLeft: ({ size, ...props }: any) => (
+  ChevronLeft: ({ size, ...props }: ComponentProps<typeof ChevronLeft>) => (
     <svg data-testid="chevron-left" width={size} height={size} {...props}>
       <path d="M15 18l-6-6 6-6" />
     </svg>
   ),
-  ChevronRight: ({ size, ...props }: any) => (
+  ChevronRight: ({ size, ...props }: ComponentProps<typeof ChevronRight>) => (
     <svg data-testid="chevron-right" width={size} height={size} {...props}>
       <path d="M9 18l6-6-6-6" />
     </svg>
