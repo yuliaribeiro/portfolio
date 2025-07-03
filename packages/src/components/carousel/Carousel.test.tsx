@@ -1,393 +1,252 @@
-import { render, screen } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
-import { vi, describe, it, expect, beforeEach } from "vitest"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
+import { describe, it, expect, vi, beforeEach } from "vitest"
+import type { TechItem } from "./hooks/useCarousel"
 import { Carousel } from "./Carousel"
-import { getDefaultHookReturn } from "./hooks/utils/mockUseCarousel"
-import { mockSlides } from "./utils/getMockCarousel"
+import type { ComponentProps } from "react"
+import { mockItems } from "./utils/getMockCarousel"
+
+// Mock the Badge component
+vi.mock("../badge/Badge", () => ({
+  Badge: ({ children, className, ...props }: any) => (
+    <span className={className} {...props}>
+      {children}
+    </span>
+  ),
+}))
 
 // Mock lucide-react icons
 vi.mock("lucide-react", () => ({
-  Pause: () => <div data-testid="pause-icon">Pause</div>,
-  Play: () => <div data-testid="play-icon">Play</div>,
-  ChevronLeft: () => <div data-testid="chevron-left-icon">ChevronLeft</div>,
-  ChevronRight: () => <div data-testid="chevron-right-icon">ChevronRight</div>,
+  ChevronLeft: ({ size, ...props }: any) => (
+    <svg data-testid="chevron-left" width={size} height={size} {...props}>
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+  ),
+  ChevronRight: ({ size, ...props }: any) => (
+    <svg data-testid="chevron-right" width={size} height={size} {...props}>
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  ),
 }))
 
-// Mock useCarousel hook
-const mockUseCarousel = vi.fn()
-vi.mock("./hooks/useCarousel", () => ({
-  useCarousel: () => mockUseCarousel(),
-}))
-
-const {
-  getByText,
-  getByRole,
-  getByTestId,
-  getByLabelText,
-  queryByTestId,
-  getAllByRole,
-  queryByRole,
-} = screen
+const { getByText, getAllByText, getByLabelText, getByTestId, queryByText } =
+  screen
 
 describe("Carousel", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-    mockUseCarousel.mockReturnValue(getDefaultHookReturn())
+    vi.resetAllMocks()
   })
 
-  describe("First Render", () => {
-    it("should render all slides with correct content", () => {
+  describe("rendering", () => {
+    it("should render carousel with items", () => {
       getRenderer()
+      // Check if first 7 items are rendered
+      expect(getByText("React")).toBeInTheDocument()
+      expect(getByText("Vue")).toBeInTheDocument()
+      expect(getByText("Angular")).toBeInTheDocument()
+      expect(getByText("Node.js")).toBeInTheDocument()
+      expect(getByText("Python")).toBeInTheDocument()
+      expect(getByText("Docker")).toBeInTheDocument()
+      expect(getByText("AWS")).toBeInTheDocument()
 
-      expect(getByText("Slide 1")).toBeInTheDocument()
-      expect(getByText("First slide of the carousel")).toBeInTheDocument()
-      expect(getByText("Slide 2")).toBeInTheDocument()
-      expect(getByText("Second slide with dynamic content")).toBeInTheDocument()
-      expect(getByText("Slide 3")).toBeInTheDocument()
-      expect(
-        getByText("Third slide with smooth animations")
-      ).toBeInTheDocument()
-      expect(getByText("Slide 4")).toBeInTheDocument()
-      expect(
-        getByText("Fourth slide with interactive elements")
-      ).toBeInTheDocument()
-      expect(getByText("Slide 5")).toBeInTheDocument()
-      expect(getByText("Last slide with a call to action")).toBeInTheDocument()
+      // Check if 8th item is not rendered (should be on next slide)
+      expect(queryByText("MongoDB")).not.toBeInTheDocument()
     })
 
-    it("should render navigation buttons", () => {
+    it("should render navigation arrows", () => {
       getRenderer()
+      expect(getByLabelText("Previous slide")).toBeInTheDocument()
+      expect(getByLabelText("Next slide")).toBeInTheDocument()
+      expect(getByTestId("chevron-left")).toBeInTheDocument()
+      expect(getByTestId("chevron-right")).toBeInTheDocument()
+    })
 
-      const prevButton = getByLabelText("Previous slide")
+    it("should render slide indicators", () => {
+      getRenderer()
+      // Should have 3 indicators (15 items / 7 per slide = 3 slides)
+      expect(getByLabelText("Slide 1 of 3")).toBeInTheDocument()
+      expect(getByLabelText("Slide 2 of 3")).toBeInTheDocument()
+      expect(getByLabelText("Slide 3 of 3")).toBeInTheDocument()
+    })
+
+    it("should render tech items with correct structure", () => {
+      getRenderer({ items: mockItems.slice(0, 3) })
+      const reactItem = getByText("React").closest("div")
+      expect(reactItem).toBeInTheDocument()
+
+      // Check if icon is rendered
+      const icon = reactItem?.querySelector("i")
+      expect(icon).toHaveClass("devicon-react-original")
+      expect(icon).toHaveClass("colored")
+
+      // Check if category badge is rendered - use getAllByText to find all instances
+      const frontendBadges = getAllByText("Frontend")
+      expect(frontendBadges.length).toBeGreaterThan(0)
+      expect(frontendBadges[0]).toBeInTheDocument()
+    })
+
+    it("should return null for empty items", () => {
+      const { container } = getRenderer({ items: [] })
+      expect(container.firstChild).toBeNull()
+    })
+  })
+
+  describe("navigation", () => {
+    it("should navigate to next slide when next button is clicked", async () => {
+      getRenderer()
       const nextButton = getByLabelText("Next slide")
+      fireEvent.click(nextButton)
 
-      expect(prevButton).toBeInTheDocument()
-      expect(nextButton).toBeInTheDocument()
-      expect(getByTestId("chevron-left-icon")).toBeInTheDocument()
-      expect(getByTestId("chevron-right-icon")).toBeInTheDocument()
+      await waitFor(() => {
+        expect(getByText("MongoDB")).toBeInTheDocument() // First item of second slide
+        expect(queryByText("React")).not.toBeInTheDocument() // First item should not be visible
+      })
     })
 
-    it("should render auto-play toggle button", () => {
+    it("should navigate to previous slide when previous button is clicked", async () => {
       getRenderer()
-
-      const autoPlayButton = getByLabelText("Start autoplay")
-      expect(autoPlayButton).toBeInTheDocument()
-      expect(getByTestId("play-icon")).toBeInTheDocument()
-    })
-
-    it("should render dots navigation", () => {
-      getRenderer()
-
-      for (let i = 1; i <= 5; i++) {
-        expect(getByLabelText(`Go to slide ${i}`)).toBeInTheDocument()
-      }
-    })
-
-    it("should render progress bar", () => {
-      getRenderer()
-
-      const progressBar = screen
-        .getByRole("region", { name: "Images carousel" })
-        .querySelector(".absolute.right-0.bottom-0.left-0.h-1")
-
-      expect(progressBar).toBeInTheDocument()
-    })
-
-    it("should display current slide info", () => {
-      getRenderer()
-
-      expect(getByText("Slide 1 of 5")).toBeInTheDocument()
-    })
-  })
-
-  describe("Navigation", () => {
-    it("should call prevSlide when previous button is clicked", async () => {
-      const user = userEvent.setup()
-      const mockPrevSlide = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ prevSlide: mockPrevSlide })
-      )
-
-      getRenderer()
-
-      const prevButton = getByLabelText("Previous slide")
-      await user.click(prevButton)
-
-      expect(mockPrevSlide).toHaveBeenCalledTimes(1)
-    })
-
-    it("should call nextSlide when next button is clicked", async () => {
-      const user = userEvent.setup()
-      const mockNextSlide = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ nextSlide: mockNextSlide })
-      )
-
-      getRenderer()
-
       const nextButton = getByLabelText("Next slide")
-      await user.click(nextButton)
-
-      expect(mockNextSlide).toHaveBeenCalledTimes(1)
-    })
-
-    it("should call goToSlide when dot is clicked", async () => {
-      const user = userEvent.setup()
-      const mockGoToSlide = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ goToSlide: mockGoToSlide })
-      )
-
-      getRenderer()
-
-      const thirdDot = getByLabelText("Go to slide 3")
-      await user.click(thirdDot)
-
-      expect(mockGoToSlide).toHaveBeenCalledWith(2)
-    })
-
-    it("should handle keyboard navigation", async () => {
-      const user = userEvent.setup()
-      const mockHandleKeyDown = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ handleKeyDown: mockHandleKeyDown })
-      )
-
-      getRenderer()
-
-      const carousel = getByRole("region", {
-        name: "Images carousel",
-      })
-      await user.type(carousel, "{ArrowRight}")
-
-      expect(mockHandleKeyDown).toHaveBeenCalled()
-    })
-  })
-
-  describe("Auto-play", () => {
-    it("should show play icon when auto-play is disabled", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ isAutoPlaying: false })
-      )
-
-      getRenderer()
-
-      expect(getByLabelText("Start autoplay")).toBeInTheDocument()
-      expect(getByTestId("play-icon")).toBeInTheDocument()
-      expect(queryByTestId("pause-icon")).not.toBeInTheDocument()
-    })
-
-    it("should show pause icon when auto-play is enabled", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ isAutoPlaying: true })
-      )
-
-      getRenderer()
-
-      expect(getByLabelText("Pause autoplay")).toBeInTheDocument()
-      expect(getByTestId("pause-icon")).toBeInTheDocument()
-      expect(queryByTestId("play-icon")).not.toBeInTheDocument()
-    })
-
-    it("should call toggleAutoPlay when auto-play button is clicked", async () => {
-      const user = userEvent.setup()
-      const mockToggleAutoPlay = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ toggleAutoPlay: mockToggleAutoPlay })
-      )
-
-      getRenderer()
-
-      const autoPlayButton = getByLabelText("Start autoplay")
-      await user.click(autoPlayButton)
-
-      expect(mockToggleAutoPlay).toHaveBeenCalledTimes(1)
-    })
-
-    it("should display auto-play status in info text", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ isAutoPlaying: true })
-      )
-
-      getRenderer()
-
-      expect(getByText("Slide 1 of 5 • Auto-play active")).toBeInTheDocument()
-    })
-  })
-
-  describe("Slides states", () => {
-    it("should highlight current slide in dots navigation", () => {
-      mockUseCarousel.mockReturnValue(getDefaultHookReturn({ currentSlide: 2 }))
-
-      getRenderer()
-
-      const currentDot = getByLabelText("Go to slide 3")
-      expect(currentDot).toHaveAttribute("aria-selected", "true")
-
-      const firstDot = getByLabelText("Go to slide 1")
-      expect(firstDot).toHaveAttribute("aria-selected", "false")
-    })
-
-    it("should update progress bar based on current slide", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ currentSlide: 2, totalSlides: 5 })
-      )
-
-      getRenderer()
-
-      const progressBar = screen
-        .getByRole("region", { name: "Images carousel" })
-        .querySelector(".h-full.bg-white") as HTMLElement
-
-      expect(progressBar).toHaveStyle("width: 60%")
-    })
-
-    it("should show correct slide counter", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ currentSlide: 3, totalSlides: 5 })
-      )
-
-      getRenderer()
-
-      expect(getByText("Slide 4 of 5")).toBeInTheDocument()
-    })
-  })
-
-  describe("Accessibility", () => {
-    it("should have proper ARIA attributes for carousel region", () => {
-      getRenderer()
-
-      const carousel = getByRole("region", {
-        name: "Images carousel",
-      })
-      expect(carousel).toHaveAttribute("aria-live", "polite")
-      expect(carousel).toHaveAttribute("tabIndex", "0")
-    })
-
-    it("should have proper ARIA attributes for dots navigation", () => {
-      getRenderer()
-
-      const tablist = getByRole("tablist")
-      expect(tablist).toBeInTheDocument()
-
-      const tabs = getAllByRole("tab")
-      expect(tabs).toHaveLength(5)
-
-      tabs.forEach((tab, index) => {
-        expect(tab).toHaveAttribute("id", `slide-${index}`)
-        expect(tab).toHaveAttribute(
-          "aria-selected",
-          index === 0 ? "true" : "false"
-        )
-      })
-    })
-
-    it("should handle focus management", () => {
-      getRenderer()
-
-      const carousel = getByRole("region", {
-        name: "Images carousel",
-      })
-      carousel.focus()
-
-      expect(document.activeElement).toBe(carousel)
-    })
-  })
-
-  describe("Multiple interactions", () => {
-    it("should handle multiple button clicks correctly", async () => {
-      const user = userEvent.setup()
-      const mockNextSlide = vi.fn()
-      const mockPrevSlide = vi.fn()
-      const mockGoToSlide = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({
-          nextSlide: mockNextSlide,
-          prevSlide: mockPrevSlide,
-          goToSlide: mockGoToSlide,
-        })
-      )
-
-      getRenderer()
-
-      const nextButton = getByLabelText("Next slide")
-      await user.click(nextButton)
-      await user.click(nextButton)
-
       const prevButton = getByLabelText("Previous slide")
-      await user.click(prevButton)
 
-      const dot = getByLabelText("Go to slide 4")
-      await user.click(dot)
+      // Go to next slide first
+      fireEvent.click(nextButton)
+      await waitFor(() => {
+        expect(getByText("MongoDB")).toBeInTheDocument()
+      })
 
-      expect(mockNextSlide).toHaveBeenCalledTimes(2)
-      expect(mockPrevSlide).toHaveBeenCalledTimes(1)
-      expect(mockGoToSlide).toHaveBeenCalledWith(3)
+      // Go back to previous slide
+      fireEvent.click(prevButton)
+      await waitFor(() => {
+        expect(getByText("React")).toBeInTheDocument()
+        expect(queryByText("MongoDB")).not.toBeInTheDocument()
+      })
     })
 
-    it("should toggle auto-play multiple times", async () => {
-      const user = userEvent.setup()
-      const mockToggleAutoPlay = vi.fn()
-
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ toggleAutoPlay: mockToggleAutoPlay })
-      )
-
+    it("should navigate using slide indicators", async () => {
       getRenderer()
 
-      const autoPlayButton = getByLabelText("Start autoplay")
+      const indicator2 = getByLabelText("Slide 2 of 3")
+      fireEvent.click(indicator2)
 
-      await user.click(autoPlayButton)
-      await user.click(autoPlayButton)
-      await user.click(autoPlayButton)
-
-      expect(mockToggleAutoPlay).toHaveBeenCalledTimes(3)
+      await waitFor(() => {
+        expect(getByText("MongoDB")).toBeInTheDocument() // First item of second slide
+      })
     })
   })
 
-  describe("Edge cases", () => {
-    it("should handle empty slides gracefully", () => {
-      mockUseCarousel.mockReturnValue(getDefaultHookReturn({ totalSlides: 0 }))
-
+  describe("accessibility", () => {
+    it("should have proper ARIA labels", () => {
       getRenderer()
 
-      expect(getByText("Slide 1 of 0")).toBeInTheDocument()
-      expect(queryByRole("tablist")).toBeInTheDocument()
+      expect(getByLabelText("Previous slide")).toBeInTheDocument()
+      expect(getByLabelText("Next slide")).toBeInTheDocument()
+      expect(getByLabelText("Slide 1 of 3")).toBeInTheDocument()
+      expect(getByLabelText("React")).toBeInTheDocument()
     })
 
-    it("should handle single slide", () => {
-      mockUseCarousel.mockReturnValue(getDefaultHookReturn({ totalSlides: 1 }))
-
+    it("should be keyboard accessible", () => {
       getRenderer()
+      const nextButton = getByLabelText("Next slide")
+      const prevButton = getByLabelText("Previous slide")
 
-      expect(getByText("Slide 1 of 1")).toBeInTheDocument()
-      expect(getByLabelText("Go to slide 1")).toBeInTheDocument()
+      expect(nextButton).toBeInstanceOf(HTMLButtonElement)
+      expect(prevButton).toBeInstanceOf(HTMLButtonElement)
+
+      // Buttons should be focusable
+      nextButton.focus()
+      expect(document.activeElement).toBe(nextButton)
+
+      prevButton.focus()
+      expect(document.activeElement).toBe(prevButton)
+    })
+  })
+
+  describe("responsive design", () => {
+    it("should have responsive grid classes", () => {
+      getRenderer()
+      const grid = getByText("React").closest("div")?.parentElement
+      expect(grid).toHaveClass("grid-cols-4")
+      expect(grid).toHaveClass("md:grid-cols-7")
+    })
+  })
+
+  describe("styling and animations", () => {
+    it("should apply hover effects", () => {
+      getRenderer()
+      const techItem = getByText("React").closest("div")
+      expect(techItem).toHaveClass("hover:scale-110")
+      expect(techItem).toHaveClass("hover:shadow-lg")
     })
 
-    it("should handle last slide position", () => {
-      mockUseCarousel.mockReturnValue(
-        getDefaultHookReturn({ currentSlide: 4, totalSlides: 5 })
-      )
-
+    it("should apply animation delays", () => {
       getRenderer()
 
-      expect(getByText("Slide 5 of 5")).toBeInTheDocument()
+      const techItems = getAllByText(/React|Vue|Angular/)
 
-      const progressBar = screen
-        .getByRole("region", { name: "Images carousel" })
-        .querySelector(".h-full.bg-white") as HTMLElement
+      techItems.forEach((item, index) => {
+        const container = item.closest("div")
+        expect(container).toHaveStyle(`animation-delay: ${index * 0.1}s`)
+      })
+    })
 
-      expect(progressBar).toHaveStyle("width: 100%")
+    it("should apply correct classes to navigation buttons", () => {
+      getRenderer()
+      const nextButton = getByLabelText("Next slide")
+      const prevButton = getByLabelText("Previous slide")
+
+      expect(nextButton).toHaveClass("bg-brand-primary")
+      expect(nextButton).toHaveClass("rounded-full")
+      expect(prevButton).toHaveClass("bg-brand-primary")
+      expect(prevButton).toHaveClass("rounded-full")
+    })
+  })
+
+  describe("edge cases", () => {
+    it("should handle single item", () => {
+      const singleItem = [mockItems[0]]
+      getRenderer({ items: singleItem })
+
+      expect(getByText("React")).toBeInTheDocument()
+      expect(getByLabelText("Slide 1 of 1")).toBeInTheDocument()
+
+      // Should still render navigation buttons
+      expect(getByLabelText("Next slide")).toBeInTheDocument()
+      expect(getByLabelText("Previous slide")).toBeInTheDocument()
+    })
+
+    it("should handle exactly 7 items", () => {
+      const sevenItems = mockItems.slice(0, 7)
+      getRenderer({ items: sevenItems })
+
+      expect(getByLabelText("Slide 1 of 1")).toBeInTheDocument()
+
+      // All 7 items should be visible
+      sevenItems.forEach((item) => {
+        expect(getByText(item.name)).toBeInTheDocument()
+      })
+    })
+
+    it("should handle items with special characters", () => {
+      const specialItems: TechItem[] = [
+        {
+          name: "React.js",
+          icon: "devicon-react-original",
+          category: "Frontend",
+        },
+        { name: "Node.js", icon: "devicon-nodejs-plain", category: "Backend" },
+        { name: "C++", icon: "devicon-cplusplus-plain", category: "Language" },
+      ]
+
+      getRenderer({ items: specialItems })
+
+      expect(getByText("React.js")).toBeInTheDocument()
+      expect(getByText("Node.js")).toBeInTheDocument()
+      expect(getByText("C++")).toBeInTheDocument()
     })
   })
 })
 
-function getRenderer() {
-  return render(<Carousel slides={mockSlides} />)
+function getRenderer({
+  items = mockItems,
+}: Partial<ComponentProps<typeof Carousel>> = {}) {
+  return render(<Carousel items={items} />)
 }

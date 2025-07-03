@@ -1,197 +1,102 @@
-import { Pause, Play, ChevronLeft, ChevronRight } from "lucide-react"
-import { useCarousel, type Slide } from "./hooks/useCarousel"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-type SlideItemProps = {
-  slide: Slide
-  isActive: boolean
-  position: "current" | "prev" | "next"
+import { useCarousel, type TechItem } from "./hooks/useCarousel"
+import { Badge } from "../badge/Badge"
+import { cn } from "../../utils"
+type CarouselProps = {
+  items: TechItem[]
 }
 
-const SlideItem: React.FC<SlideItemProps> = ({ slide, isActive, position }) => {
-  const getTransformClass = () => {
-    switch (position) {
-      case "current":
-        return "translate-x-0 opacity-100 z-10"
-      case "prev":
-        return "-translate-x-full opacity-0 z-0"
-      case "next":
-        return "translate-x-full opacity-0 z-0"
-      default:
-        return "translate-x-full opacity-0 z-0"
-    }
-  }
+export function Carousel({ items }: CarouselProps) {
+  const {
+    currentSlide,
+    totalSlides,
+    getCurrentSlideItems,
+    nextSlide,
+    prevSlide,
+    setCurrentSlide,
+    pauseAutoplay,
+    resumeAutoplay,
+  } = useCarousel(items, {
+    autoplay: true,
+    interval: 4000,
+  })
+
+  if (!items || items.length === 0) return null
 
   return (
     <div
-      className={`absolute inset-0 transform transition-all duration-500 ease-in-out ${getTransformClass()}`}
-      role="tabpanel"
-      aria-hidden={!isActive}
-      aria-labelledby={`slide-${slide.id}`}
+      className="relative mx-auto max-w-7xl"
+      onMouseEnter={pauseAutoplay}
+      onMouseLeave={resumeAutoplay}
     >
-      <div
-        className={`h-full w-full bg-gradient-to-br ${slide.color} flex items-center justify-center`}
-      >
-        <div className="p-8 text-center text-white">
-          <h2 className="mb-4 text-4xl font-bold">{slide.title}</h2>
-          <p className="text-xl opacity-90">{slide.content}</p>
+      {/* Carousel Container */}
+      <div className="bg-surface-base overflow-hidden rounded-3xl px-18 shadow-2xl">
+        {/* Carousel Content */}
+        <div className="relative flex h-80 items-center justify-center">
+          <div className={"grid w-full grid-cols-4 gap-3 md:grid-cols-7"}>
+            {getCurrentSlideItems.map((tech, index) => (
+              <div
+                key={`${tech.name}-${currentSlide}`}
+                className="animate-fade-in-up hover:!bg-foreground-muted/3 flex flex-col items-center justify-center rounded-2xl py-4 transition-all duration-500 hover:scale-110 hover:shadow-lg"
+                style={{
+                  animationDelay: `${index * 0.1}s`,
+                }}
+              >
+                <i className={`${tech.icon} colored mb-3 text-5xl`}></i>
+                <p
+                  className="text-brand-primary text-center text-sm leading-tight font-semibold"
+                  aria-label={tech.name}
+                >
+                  {tech.name}
+                </p>
+                <Badge
+                  className="mt-1 rounded-full px-2 py-1 text-xs"
+                  aria-label={tech.category}
+                >
+                  {tech.category}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Arrows */}
+        <div className="absolute top-1/2 left-4 -translate-y-1/2 transform">
+          <button
+            onClick={prevSlide}
+            className="bg-brand-primary rounded-full p-2 text-white shadow-lg"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={24} />
+          </button>
+        </div>
+        <div className="absolute top-1/2 right-4 -translate-y-1/2 transform">
+          <button
+            onClick={nextSlide}
+            className="bg-brand-primary rounded-full p-2 text-white shadow-lg"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
-    </div>
-  )
-}
 
-type NavigationButtonProps = {
-  onClick: () => void
-  direction: "prev" | "next"
-  ariaLabel: string
-}
-
-const NavigationButton: React.FC<NavigationButtonProps> = ({
-  onClick,
-  direction,
-  ariaLabel,
-}) => {
-  const isNext = direction === "next"
-  const positionClass = isNext ? "right-4" : "left-4"
-
-  return (
-    <button
-      onClick={onClick}
-      className={`absolute ${positionClass} top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/90 p-3 text-gray-800 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none`}
-      aria-label={ariaLabel}
-    >
-      {isNext ? (
-        <ChevronRight className="h-6 w-6" />
-      ) : (
-        <ChevronLeft className="h-6 w-6" />
-      )}
-    </button>
-  )
-}
-
-type DotsNavigationProps = {
-  totalSlides: number
-  currentSlide: number
-  onSlideSelect: (index: number) => void
-}
-
-const DotsNavigation: React.FC<DotsNavigationProps> = ({
-  totalSlides,
-  currentSlide,
-  onSlideSelect,
-}) => {
-  return (
-    <div className="mt-6 flex justify-center space-x-2" role="tablist">
-      {Array.from({ length: totalSlides }, (_, index) => (
-        <button
-          key={index}
-          onClick={() => onSlideSelect(index)}
-          className={`h-3 w-3 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none ${
-            index === currentSlide
-              ? "scale-125 bg-blue-600"
-              : "bg-gray-400 hover:scale-110 hover:bg-gray-600"
-          }`}
-          role="tab"
-          aria-selected={index === currentSlide}
-          aria-label={`Go to slide ${index + 1}`}
-          id={`slide-${index}`}
-        />
-      ))}
-    </div>
-  )
-}
-
-type CarouselProps = {
-  slides: Slide[]
-}
-
-export const Carousel = ({ slides }: CarouselProps) => {
-  const {
-    currentSlide,
-    isAutoPlaying,
-    totalSlides,
-    goToSlide,
-    nextSlide,
-    prevSlide,
-    toggleAutoPlay,
-    handleKeyDown,
-  } = useCarousel({ slides })
-
-  const getSlidePosition = (index: number): "current" | "prev" | "next" => {
-    if (index === currentSlide) return "current"
-    if (index < currentSlide) return "prev"
-    return "next"
-  }
-
-  return (
-    <div className="mx-auto w-full max-w-4xl p-6">
-      <div
-        className="relative overflow-hidden rounded-2xl bg-gray-900 shadow-2xl"
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        role="region"
-        aria-label="Images carousel"
-        aria-live="polite"
-      >
-        {/* Slides Container */}
-        <div className="relative h-96 overflow-hidden">
-          {slides.map((slide, index) => (
-            <SlideItem
-              key={slide.id}
-              slide={slide}
-              isActive={index === currentSlide}
-              position={getSlidePosition(index)}
-            />
-          ))}
-        </div>
-
-        {/* Navigation Buttons */}
-        <NavigationButton
-          onClick={prevSlide}
-          direction="prev"
-          ariaLabel="Previous slide"
-        />
-        <NavigationButton
-          onClick={nextSlide}
-          direction="next"
-          ariaLabel="Next slide"
-        />
-
-        {/* Auto-play Toggle */}
-        <button
-          onClick={toggleAutoPlay}
-          className="absolute top-4 right-4 rounded-full bg-black/50 p-2 text-white transition-all duration-200 hover:scale-110 hover:bg-black/70 focus:ring-2 focus:ring-white/50 focus:outline-none"
-          aria-label={isAutoPlaying ? "Pause autoplay" : "Start autoplay"}
-        >
-          {isAutoPlaying ? (
-            <Pause className="h-5 w-5" />
-          ) : (
-            <Play className="h-5 w-5" />
-          )}
-        </button>
-
-        {/* Progress Bar */}
-        <div className="absolute right-0 bottom-0 left-0 h-1 bg-black/30">
-          <div
-            className="h-full bg-white transition-all duration-300 ease-out"
-            style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+      {/* Indicators */}
+      <div className="mt-8 flex justify-center space-x-3">
+        {Array.from({ length: totalSlides }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={cn(
+              "bg-brand-primary/25 h-3 w-3 rounded-full transition-all duration-300",
+              {
+                "bg-accent": currentSlide === index,
+              }
+            )}
+            aria-label={`Slide ${index + 1} of ${totalSlides}`}
           />
-        </div>
-      </div>
-
-      {/* Dots Navigation */}
-      <DotsNavigation
-        totalSlides={totalSlides}
-        currentSlide={currentSlide}
-        onSlideSelect={goToSlide}
-      />
-
-      {/* Controls Info */}
-      <div className="text-foreground-muted mt-4 text-center text-sm">
-        <p className="mt-1">
-          Slide {currentSlide + 1} of {totalSlides}
-          {isAutoPlaying && " • Auto-play active"}
-        </p>
+        ))}
       </div>
     </div>
   )
