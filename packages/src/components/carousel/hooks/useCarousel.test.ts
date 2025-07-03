@@ -1,6 +1,7 @@
-import { renderHook, act } from "@testing-library/react"
+import { renderHook, act, type RenderHookResult } from "@testing-library/react"
 import { useCarousel } from "./useCarousel"
 import { mockSlides } from "../utils/getMockCarousel"
+import { vi } from "vitest"
 
 describe("useCarousel", () => {
   it("should initialize with default values", () => {
@@ -32,21 +33,17 @@ describe("useCarousel", () => {
   })
 
   it("should go to next slide and wrap around", () => {
-    const { result } = renderHook(() =>
-      useCarousel({ slides: mockSlides, initialSlide: 2 })
-    )
+    const { result } = getRenderer({ initialSlide: 4 })
 
     act(() => {
       result.current.nextSlide()
     })
 
-    expect(result.current.currentSlide).toBe(3)
+    expect(result.current.currentSlide).toBe(0)
   })
 
   it("should go to previous slide and wrap around", () => {
-    const { result } = renderHook(() =>
-      useCarousel({ slides: mockSlides, initialSlide: 0 })
-    )
+    const { result } = getRenderer({ initialSlide: 0 })
 
     act(() => {
       result.current.prevSlide()
@@ -56,9 +53,7 @@ describe("useCarousel", () => {
   })
 
   it("should toggle autoplay", () => {
-    const { result } = renderHook(() =>
-      useCarousel({ slides: mockSlides, initialAutoPlay: false })
-    )
+    const { result } = getRenderer({ initialAutoPlay: false })
 
     expect(result.current.isAutoPlaying).toBe(false)
 
@@ -73,35 +68,34 @@ describe("useCarousel", () => {
     const { result } = renderHook(() =>
       useCarousel({ slides: mockSlides, initialSlide: 1 })
     )
+    // @ts-expect-error: partial event only for testing purposes
+    const createKeyboardEvent = (key: string): KeyboardEvent<Element> =>
+      ({
+        key,
+        preventDefault: vi.fn(),
+        // @ts-expect-error: partial event only for testing purposes
+      }) as Partial<KeyboardEvent<Element>> as KeyboardEvent<Element>
 
     act(() => {
-      result.current.handleKeyDown({
-        key: "ArrowLeft",
-        preventDefault: vi.fn(),
-      } as any)
+      result.current.handleKeyDown(createKeyboardEvent("ArrowLeft"))
     })
     expect(result.current.currentSlide).toBe(0)
 
     act(() => {
-      result.current.handleKeyDown({
-        key: "ArrowRight",
-        preventDefault: vi.fn(),
-      } as any)
+      result.current.handleKeyDown(createKeyboardEvent("ArrowRight"))
     })
     expect(result.current.currentSlide).toBe(1)
 
     act(() => {
-      result.current.handleKeyDown({ key: " ", preventDefault: vi.fn() } as any)
+      result.current.handleKeyDown(createKeyboardEvent(" "))
     })
     expect(result.current.isAutoPlaying).toBe(false)
   })
 
-  it("should autoplay and advance slides over time", async () => {
+  it("should autoplay and advance slides over time", () => {
     vi.useFakeTimers()
 
-    const { result } = renderHook(() =>
-      useCarousel({ slides: mockSlides, autoPlayInterval: 1000 })
-    )
+    const { result } = getRenderer({ autoPlayInterval: 1000 })
 
     expect(result.current.currentSlide).toBe(0)
 
@@ -119,6 +113,15 @@ describe("useCarousel", () => {
   })
 })
 
-function getRenderer() {
-  return renderHook(() => useCarousel({ slides: mockSlides }))
+type GetRendererOptions = Partial<Parameters<typeof useCarousel>[0]>
+
+function getRenderer(
+  options: GetRendererOptions = {}
+): RenderHookResult<ReturnType<typeof useCarousel>, unknown> {
+  return renderHook(() =>
+    useCarousel({
+      slides: mockSlides,
+      ...options,
+    })
+  )
 }
