@@ -1,7 +1,8 @@
 {
   "name": "packages",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "homepage": "https://yuliaribeiro.github.io/portfolio",
   "type": "module",
   "scripts": {
     "dev": "vite",
