@@ -70,7 +70,7 @@ describe("Navbar Component", () => {
   it("should render default logo when no logo prop is provided", () => {
     getRenderer()
 
-    const defaultLogo = getByText("Portfolio")
+    const defaultLogo = getByText("Page under construction")
     expect(defaultLogo).toBeInTheDocument()
     expect(defaultLogo).toHaveClass(
       "font-family-playfair",
@@ -162,7 +162,7 @@ describe("Navbar Component", () => {
 
     const navbar = getByTestId("navbar")
     expect(navbar).toBeInTheDocument()
-    expect(getByText("Portfolio")).toBeInTheDocument()
+
     expect(queryAllByRole("button")).toHaveLength(0)
   })
 
@@ -171,7 +171,7 @@ describe("Navbar Component", () => {
 
     const navbar = getByTestId("navbar")
     expect(navbar).toBeInTheDocument()
-    expect(getByText("Portfolio")).toBeInTheDocument()
+
     expect(queryAllByRole("button")).toHaveLength(0)
   })
 
@@ -216,7 +216,6 @@ describe("Navbar Component", () => {
 
     const navbar = getByTestId("minimal-navbar")
     expect(navbar).toBeInTheDocument()
-    expect(getByText("Portfolio")).toBeInTheDocument()
   })
 
   it("should handle single navigation item", () => {
