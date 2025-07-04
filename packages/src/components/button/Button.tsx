@@ -21,6 +21,9 @@ const buttonVariants = cva(
         lg: "rounded-xl px-10 py-4",
         icon: "rounded-xl py-2.5 px-2",
       },
+      fullWidth: {
+        true: "w-full",
+      },
     },
     defaultVariants: {
       variant: "default",
@@ -37,14 +40,22 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, hoverEffect = true, variant, size, asChild = false, ...props },
+    {
+      className,
+      hoverEffect = true,
+      variant,
+      fullWidth,
+      size,
+      asChild = false,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(
-          buttonVariants({ variant, size }),
+          buttonVariants({ variant, size, fullWidth }),
           hoverEffect ? "button-hover-effect" : "hover:brightness-115",
           className
         )}
