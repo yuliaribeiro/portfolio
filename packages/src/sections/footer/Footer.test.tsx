@@ -13,14 +13,14 @@ describe("Footer", () => {
     vi.useRealTimers()
   })
 
-  it("renders the footer element", () => {
+  it("should render the footer element", () => {
     getRenderer()
 
     const footer = getByRole("contentinfo")
     expect(footer).toBeInTheDocument()
   })
 
-  it("displays the current year in copyright text", () => {
+  it("should display the current year in copyright text", () => {
     const mockYear = 2024
     vi.setSystemTime(new Date(mockYear, 0, 1))
 
@@ -32,7 +32,7 @@ describe("Footer", () => {
     expect(copyrightText).toBeInTheDocument()
   })
 
-  it("updates year when system time changes", () => {
+  it("should update year when system time changes", () => {
     // Test with year 2023
     vi.setSystemTime(new Date(2023, 0, 1))
     getRenderer()
@@ -46,7 +46,7 @@ describe("Footer", () => {
     expect(getByText(/© 2025 Juliana Ribeiro/)).toBeInTheDocument()
   })
 
-  it("contains all expected technologies in the text", () => {
+  it("should contain all expected technologies in the text", () => {
     getRenderer()
 
     const footerText = getByText(
@@ -55,20 +55,20 @@ describe("Footer", () => {
     expect(footerText).toBeInTheDocument()
   })
 
-  it("has correct CSS classes applied", () => {
+  it("should have correct CSS classes applied", () => {
     getRenderer()
 
     const footer = getByRole("contentinfo")
     expect(footer).toHaveClass(
       "border-t-brand-primary/20",
-      "bg-brand-primary/05",
+      "bg-brand-primary/5",
       "border-t",
       "px-6",
       "py-12"
     )
   })
 
-  it("has correct container structure and classes", () => {
+  it("should have correct container structure and classes", () => {
     getRenderer()
 
     const footer = getByRole("contentinfo")
@@ -77,14 +77,14 @@ describe("Footer", () => {
     expect(container).toHaveClass("mx-auto", "max-w-7xl", "text-center")
   })
 
-  it("has correct text styling classes", () => {
+  it("should have correct text styling classes", () => {
     getRenderer()
 
     const copyrightText = getByText(/© \d{4} Juliana Ribeiro/)
     expect(copyrightText).toHaveClass("text-foreground-muted/70", "text-lg")
   })
 
-  it("renders as a paragraph element", () => {
+  it("should render as a paragraph element", () => {
     getRenderer()
 
     const copyrightText = getByText(/© \d{4} Juliana Ribeiro/)
@@ -98,7 +98,7 @@ describe("Footer", () => {
     expect(container.firstChild).toMatchSnapshot()
   })
 
-  it("is accessible", () => {
+  it("should be accessible", () => {
     getRenderer()
 
     const footer = getByRole("contentinfo")
@@ -110,7 +110,7 @@ describe("Footer", () => {
   })
 
   describe("Edge Cases", () => {
-    it("handles leap year correctly", () => {
+    it("should handle leap year correctly", () => {
       vi.setSystemTime(new Date(2024, 1, 29)) // February 29, 2024 (leap year)
 
       getRenderer()
@@ -118,7 +118,7 @@ describe("Footer", () => {
       expect(getByText(/© 2024 Juliana Ribeiro/)).toBeInTheDocument()
     })
 
-    it("handles year transition correctly", () => {
+    it("should handle year transition correctly", () => {
       vi.setSystemTime(new Date(2023, 11, 31, 23, 59, 59)) // December 31, 2023
 
       getRenderer()
@@ -126,7 +126,7 @@ describe("Footer", () => {
       expect(getByText(/© 2023 Juliana Ribeiro/)).toBeInTheDocument()
     })
 
-    it("handles future dates correctly", () => {
+    it("should handle future dates correctly", () => {
       vi.setSystemTime(new Date(2030, 5, 15))
 
       getRenderer()

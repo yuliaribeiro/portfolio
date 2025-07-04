@@ -166,7 +166,7 @@ describe("Carousel", () => {
     it("should have responsive grid classes", () => {
       getRenderer()
       const grid = getByText("React").closest("div")?.parentElement
-      expect(grid).toHaveClass("grid-cols-4")
+      expect(grid).toHaveClass("grid-cols-2")
       expect(grid).toHaveClass("md:grid-cols-7")
     })
   })

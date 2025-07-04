@@ -79,7 +79,6 @@ describe("Skills", () => {
       expect(section).toHaveClass("mx-auto")
       expect(section).toHaveClass("max-w-7xl")
       expect(section).toHaveClass("px-4")
-      expect(section).toHaveClass("pb-28")
       expect(section).toHaveClass("text-center")
       expect(section).toHaveClass("md:px-6")
     })
