@@ -237,7 +237,7 @@ describe("Button", () => {
       },
       {
         variant: "link" as const,
-        expectedClasses: ["button-link-hover", "p-0", "hover:scale-none"],
+        expectedClasses: ["button-link-hover", "!p-0", "hover:scale-none"],
         description: "link variant",
       },
     ]
