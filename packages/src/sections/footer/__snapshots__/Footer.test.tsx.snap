@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > matches snapshot 1`] = `
+<footer
+  class="border-t-brand-primary/20 bg-brand-primary/05 border-t px-6 py-12"
+>
+  <div
+    class="mx-auto max-w-7xl text-center"
+  >
+    <p
+      class="text-foreground-muted/70 text-lg"
+    >
+      © 2024 Juliana Ribeiro. Built with Vite, React, TypeScript & Tailwind CSS.
+    </p>
+  </div>
+</footer>
+`;
