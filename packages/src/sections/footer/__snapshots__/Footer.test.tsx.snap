@@ -2,7 +2,7 @@
 
 exports[`Footer > matches snapshot 1`] = `
 <footer
-  class="border-t-brand-primary/20 bg-brand-primary/05 border-t px-6 py-12"
+  class="border-t-brand-primary/20 bg-brand-primary/5 border-t px-6 py-12"
 >
   <div
     class="mx-auto max-w-7xl text-center"
