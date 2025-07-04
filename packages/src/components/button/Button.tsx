@@ -13,7 +13,7 @@ const buttonVariants = cva(
         tertiary: "bg-accent text-brand-primary",
         outline:
           "button-outline-hover border border-2 border-brand-primary text-brand-primary",
-        link: " p-0 hover:scale-none hover:shadow-none button-link-hover",
+        link: "!p-0  hover:scale-none hover:shadow-none button-link-hover",
       },
       size: {
         sm: "rounded-md px-2 py-1",
