@@ -28,9 +28,12 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           {/* Logo Section */}
           <div className="flex items-center">
             {logo || (
-              <h2 className="font-family-playfair text-gradient-primary text-2xl font-bold tracking-tight md:text-3xl">
-                Portfolio
-              </h2>
+              <div className="flex items-center gap-2">
+                🚧
+                <h2 className="font-family-playfair text-gradient-primary text-2xl font-bold tracking-tight md:text-3xl">
+                  Page under construction
+                </h2>
+              </div>
             )}
           </div>
 

@@ -237,7 +237,7 @@ describe("Button", () => {
       },
       {
         variant: "link" as const,
-        expectedClasses: ["button-link-hover", "p-0", "hover:scale-none"],
+        expectedClasses: ["button-link-hover", "!p-0", "hover:scale-none"],
         description: "link variant",
       },
     ]
@@ -286,6 +286,52 @@ describe("Button", () => {
         expect(button).toHaveClass(...expectedClasses)
       }
     )
+  })
+
+  describe("fullWidth", () => {
+    it("should not apply full width by default", () => {
+      getRenderer()
+
+      const button = getByRole("button", { name: /click me/i })
+      expect(button).not.toHaveClass("w-full")
+    })
+
+    it("should apply full width when fullWidth is true", () => {
+      getRenderer({ fullWidth: true })
+
+      const button = getByRole("button", { name: /click me/i })
+      expect(button).toHaveClass("w-full")
+    })
+
+    it("should not apply full width when fullWidth is false", () => {
+      getRenderer({ fullWidth: false })
+
+      const button = getByRole("button", { name: /click me/i })
+      expect(button).not.toHaveClass("w-full")
+    })
+
+    it("should combine fullWidth with other variants and sizes", () => {
+      getRenderer({
+        fullWidth: true,
+        variant: "outline",
+        size: "sm",
+        className: "custom-class",
+      })
+
+      const button = getByRole("button", { name: /click me/i })
+      expect(button).toHaveClass(
+        "w-full",
+        "button-outline-hover",
+        "border",
+        "border-2",
+        "border-brand-primary",
+        "text-brand-primary",
+        "rounded-md",
+        "px-2",
+        "py-1",
+        "custom-class"
+      )
+    })
   })
 })
 

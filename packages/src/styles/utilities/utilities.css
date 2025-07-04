@@ -31,8 +31,23 @@
 @layer components {
   .text-gradient-primary {
     background-image: linear-gradient(
+      90deg,
+      var(--color-brand-primary) 0%,
+      var(--color-brand-primary) 30%,
+      var(--color-brand-secondary) 90%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+@layer components {
+  .text-gradient-accent {
+    background-image: linear-gradient(
       135deg,
       var(--color-brand-primary),
+      var(--color-accent),
       var(--color-brand-secondary)
     );
     background-clip: text;
