@@ -33,8 +33,8 @@ export function Carousel({ items }: CarouselProps) {
       {/* Carousel Container */}
       <div className="bg-surface-base overflow-hidden rounded-3xl px-18 shadow-2xl">
         {/* Carousel Content */}
-        <div className="relative flex h-80 items-center justify-center">
-          <div className={"grid w-full grid-cols-4 gap-3 md:grid-cols-7"}>
+        <div className="relative flex h-75 items-center justify-center md:h-80">
+          <div className={"grid w-full grid-cols-2 gap-3 md:grid-cols-7"}>
             {getCurrentSlideItems.map((tech, index) => (
               <div
                 key={`${tech.name}-${currentSlide}`}
