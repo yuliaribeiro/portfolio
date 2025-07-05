@@ -4,7 +4,6 @@ import { ContactSection } from "./sections/contact/ContactSection"
 import { Footer } from "./sections/footer/Footer"
 import { HomeSection } from "./sections/home/HomeSection"
 import { ProjectsSection } from "./sections/projects/ProjectsSection"
-import { mockItems } from "./sections/skills/components/carousel/utils/getMockCarousel"
 import { SkillsSection } from "./sections/skills/SkillsSection"
 
 /*
@@ -24,28 +23,18 @@ function App() {
             { label: "Contact", sectionId: "contact" },
           ]}
         ></Navbar>
-        <HomeSection
-          actions={{
-            primaryAction: () => {},
-            secondaryAction: () => {},
-          }}
-        />
+        <HomeSection />
 
-        <AboutSection
-          actions={{
-            primaryAction: () => {},
-          }}
-          qrCodeSrc=""
-        ></AboutSection>
+        <AboutSection />
 
-        <SkillsSection techItems={mockItems} />
+        <SkillsSection />
 
         <ProjectsSection />
 
         <ContactSection />
       </main>
 
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }
