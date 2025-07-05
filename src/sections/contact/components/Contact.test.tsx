@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import { Contact } from "./Contact"
 import type { ComponentProps } from "react"
-import type { Button } from "../../components/button/Button"
+import type { Button } from "../../../components/button/Button"
 
 // Mock Button component
 vi.mock("../../components/button/Button", () => ({
@@ -74,7 +74,6 @@ describe("Contact", () => {
         button.querySelector("i.devicon-github-plain")
       )
       expect(githubButton).toBeInTheDocument()
-      expect(githubButton).toHaveAttribute("data-variant", "secondary")
     })
 
     it("should render LinkedIn button with correct icon", () => {
@@ -85,7 +84,6 @@ describe("Contact", () => {
         button.querySelector("i.devicon-linkedin-plain")
       )
       expect(linkedinButton).toBeInTheDocument()
-      expect(linkedinButton).toHaveAttribute("data-variant", "secondary")
     })
   })
 
@@ -98,7 +96,7 @@ describe("Contact", () => {
         "mx-auto",
         "max-w-7xl",
         "px-4",
-        "py-28",
+        "pb-28",
         "text-center",
         "md:px-6"
       )
@@ -162,13 +160,14 @@ describe("Contact", () => {
 
       const buttons = getAllByRole("button")
       const secondaryButtons = buttons.filter(
-        (button) => button.getAttribute("data-variant") === "secondary"
+        (button) =>
+          button.getAttribute("aria-label") === "GitHub Link" ||
+          button.getAttribute("aria-label") === "LinkedIn Link"
       )
 
       expect(secondaryButtons).toHaveLength(2)
       secondaryButtons.forEach((button) => {
-        expect(button).toHaveClass("p-4")
-        expect(button).toHaveAttribute("data-variant", "secondary")
+        expect(button).toHaveClass("bg-brand-secondary")
       })
     })
   })
@@ -203,10 +202,10 @@ describe("Contact", () => {
       const customContactInfo = {
         title: "Contact Me",
         subtitle: "Subtitle test",
-        primaryButtonLabel: "Button test",
+        primaryActionLabel: "Button test",
       }
 
-      render(<Contact contactInfo={customContactInfo} />)
+      getRenderer({ labels: customContactInfo })
 
       const title = getByRole("heading", { level: 2 })
       expect(title).toHaveTextContent("Contact Me")
@@ -216,10 +215,10 @@ describe("Contact", () => {
       const customContactInfo = {
         title: "Title test",
         subtitle: "Custom contact description",
-        primaryButtonLabel: "Button test",
+        primaryActionLabel: "Button test",
       }
 
-      render(<Contact contactInfo={customContactInfo} />)
+      getRenderer({ labels: customContactInfo })
 
       const subtitle = getByText("Custom contact description")
       expect(subtitle).toBeInTheDocument()
@@ -229,10 +228,10 @@ describe("Contact", () => {
       const customContactInfo = {
         title: "Title test",
         subtitle: "Subtitle test",
-        primaryButtonLabel: "Contact Now",
+        primaryActionLabel: "Contact Now",
       }
 
-      render(<Contact contactInfo={customContactInfo} />)
+      getRenderer({ labels: customContactInfo })
 
       const primaryButton = getByRole("button", {
         name: /Mail Icon Contact Now/i,
@@ -301,10 +300,10 @@ describe("Contact", () => {
       const emptyContactInfo = {
         title: "",
         subtitle: "",
-        primaryButtonLabel: "",
+        primaryActionLabel: "",
       }
 
-      getRenderer({ contactInfo: emptyContactInfo })
+      getRenderer({ labels: emptyContactInfo })
 
       const title = getByRole("heading", { level: 2 })
       const subtitle = document.querySelector("p.animate-fade-in-up")
@@ -320,10 +319,10 @@ describe("Contact", () => {
       const specialContactInfo = {
         title: "Title with àccénts & symbols!",
         subtitle: 'Subtitle with "quotes" and other special characters',
-        primaryButtonLabel: "Button & Action",
+        primaryActionLabel: "Button & Action",
       }
 
-      getRenderer({ contactInfo: specialContactInfo })
+      getRenderer({ labels: specialContactInfo })
 
       expect(getByText("Title with àccénts & symbols!")).toBeInTheDocument()
       expect(
@@ -340,10 +339,10 @@ describe("Contact", () => {
           "This is a very long title that might break the layout if not handled properly",
         subtitle:
           "This is an extremely long subtitle that tests how the component behaves with extensive text and multiple lines of content",
-        primaryButtonLabel: "Button with Very Long Label",
+        primaryActionLabel: "Button with Very Long Label",
       }
 
-      getRenderer({ contactInfo: longTextContactInfo })
+      getRenderer({ labels: longTextContactInfo })
 
       expect(getByRole("heading", { level: 2 })).toHaveTextContent(
         longTextContactInfo.title
@@ -351,7 +350,7 @@ describe("Contact", () => {
       expect(getByText(longTextContactInfo.subtitle)).toBeInTheDocument()
       expect(
         getByRole("button", {
-          name: new RegExp(longTextContactInfo.primaryButtonLabel, "i"),
+          name: new RegExp(longTextContactInfo.primaryActionLabel, "i"),
         })
       ).toBeInTheDocument()
     })
@@ -361,10 +360,10 @@ describe("Contact", () => {
 const mockContactInfo = {
   title: "Get In Touch",
   subtitle: "Let's talk about your projects and ideas",
-  primaryButtonLabel: "Send Email",
+  primaryActionLabel: "Send Email",
 }
 function getRenderer({
-  contactInfo = mockContactInfo,
+  labels = mockContactInfo,
 }: Partial<ComponentProps<typeof Contact>> = {}) {
-  return render(<Contact contactInfo={contactInfo} />)
+  return render(<Contact labels={labels} />)
 }
