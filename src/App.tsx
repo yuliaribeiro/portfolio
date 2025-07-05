@@ -13,11 +13,17 @@ import { Skills } from "./sections/skills/Skills"
 */
 function App() {
   // document.documentElement.classList.add("dark")
-
   return (
     <>
       <main className="mx-auto min-h-screen w-full flex-1 space-y-32">
-        <Navbar items={[{ label: "Home", sectionId: "home" }]}></Navbar>
+        <Navbar
+          items={[
+            { label: "Home", sectionId: "home" },
+            { label: "About", sectionId: "about" },
+            { label: "Projects", sectionId: "projects" },
+            { label: "Contact", sectionId: "contact" },
+          ]}
+        ></Navbar>
         <Home
           hero={{
             title: "Juliana Ribeiro",
@@ -67,21 +73,21 @@ function App() {
           pageTitle=" Featured Projects"
           projectsInfo={[
             {
-              title: "E-Commerce Platform",
+              title: "Pet Place",
               description:
                 "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
               stacks: ["React", "Node.js", "MongoDB"],
               link: "https://www.shelterbuddy.com/",
             },
             {
-              title: "E-Commerce Platform",
+              title: "ShelterBuddy",
               description:
                 "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
               stacks: ["React", "Node.js", "MongoDB"],
               link: "https://www.shelterbuddy.com/",
             },
             {
-              title: "E-Commerce Platform",
+              title: "Simply As",
               description:
                 "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
               stacks: ["React", "Node.js", "MongoDB"],
