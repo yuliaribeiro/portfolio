@@ -1,0 +1,21 @@
+{
+  "labels": {
+    "sectionInfo": {
+      "title": "Sobre",
+      "descriptions": [
+        "Sou desenvolvedora frontend movida por um princípio simples: uma boa experiência de usuário começa com um código bem feito.",
+        "Com mais de 3 anos de experiência prática em React, TypeScript e tecnologias modernas da web, transformo ideias em soluções robustas, escaláveis e com um visual caprichado. Mais do que entregar funcionalidades, meu foco é criar interfaces intuitivas, acessíveis e preparadas para crescer.",
+        "Além do código, trago uma postura de responsabilidade, colaboração e evolução constante. Gosto de trabalhar em ambientes ágeis, participar ativamente das decisões técnicas e acredito que código limpo, testado e bem documentado é essencial para um produto de qualidade.",
+        "Se você procura alguém que vá cuidar do seu produto com o mesmo carinho e dedicação que você, unindo habilidade técnica e visão estratégica, vai ser um prazer trocar uma ideia!"
+      ]
+    },
+    "qrCodeInfo": {
+      "imageAlt": "QR Code para download do currículo",
+      "title": "Download Rápido",
+      "description": "Aponte a câmera do seu celular para o QR Code e baixe meu currículo",
+
+      "alternativeText": "Ou clique no botão acima para baixar diretamente"
+    },
+    "primaryActionLabel": "Baixar Currículo"
+  }
+}
