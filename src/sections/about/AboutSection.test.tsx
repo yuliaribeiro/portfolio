@@ -6,8 +6,8 @@ import type { AboutActions } from "./types/aboutTypes"
 // Mock i18n with array
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: any) => {
-      if (key === "labels.sectionInfo.descriptions" && options?.returnObjects) {
+    t: (key: string) => {
+      if (key === "labels.sectionInfo.descriptions") {
         return ["translated:desc1", "translated:desc2"]
       }
       return `translated:${key}`
