@@ -23,7 +23,7 @@ export const Home = ({ hero }: HomeProps) => {
   return (
     <section
       id="home"
-      className="mx-auto flex max-w-5xl flex-col items-center justify-center space-y-2 px-6 pt-24 text-center"
+      className="mx-auto flex max-w-5xl flex-col items-center justify-center space-y-2 px-6 pt-32 text-center md:pt-24"
     >
       <div className="animate-fade-in mx-auto mt-2 text-center md:mt-4">
         <div className="animate-float mx-auto h-40 w-40 rounded-full shadow-2xl"></div>
