@@ -2,6 +2,8 @@ import * as React from "react"
 import { cn } from "../../utils"
 import { Button } from "../button/Button"
 import { Languages, Moon } from "lucide-react"
+import { useState } from "react"
+import { useLanguage } from "../../hooks/useLanguage"
 
 type NavItem = {
   label: string
@@ -17,7 +19,9 @@ type NavbarProps = React.HTMLAttributes<HTMLElement> & {
 
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   ({ className, logo, items, activeSection, onItemClick, ...props }, ref) => {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+    const { toggleLanguage, label } = useLanguage()
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const handleItemClick = (sectionId: string) => {
       onItemClick?.(sectionId)
@@ -27,9 +31,11 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     const renderAccessibilityButtons = () => {
       return (
         <div className="flex items-center gap-3 md:gap-4">
-          <Button size="icon" variant="secondary">
+          <Button size="icon" variant="secondary" onClick={toggleLanguage}>
             <Languages className="h-4 w-4 md:h-5 md:w-5" />
-            <span className="text-base leading-5 font-bold md:text-sm">EN</span>
+            <span className="text-base leading-5 font-bold md:text-sm">
+              {label}
+            </span>
           </Button>
           <Button size="icon">
             <Moon className="h-5 w-5" />
