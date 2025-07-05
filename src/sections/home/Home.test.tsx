@@ -41,8 +41,9 @@ describe("Home", () => {
       "justify-center",
       "space-y-2",
       "px-6",
-      "pt-24",
-      "text-center"
+      "pt-32",
+      "text-center",
+      "md:pt-24"
     )
   })
 

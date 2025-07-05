@@ -25,6 +25,11 @@
   .navbar-item-decorator {
     @apply bg-accent absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full;
   }
+
+  /* Hamburger Effect */
+  .hamburger-click-effect {
+    @apply bg-surface-base block h-0.5 w-5 transition-all duration-300;
+  }
 }
 
 /* Text Gradient Effects */
