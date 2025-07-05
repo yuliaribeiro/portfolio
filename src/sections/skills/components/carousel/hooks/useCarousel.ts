@@ -1,10 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react"
-
-export type TechItem = {
-  name: string
-  icon: string
-  category: string
-}
+import type { TechItem } from "../../../types/skillsTypes"
 
 type UseCarouselOptions = {
   autoplay?: boolean

@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
-import { Skills } from "./Skills"
 import type { ComponentProps } from "react"
 import { mockItems } from "./carousel/utils/getMockCarousel"
+import { Skills } from "./Skills"
 
 // Mock the Carousel component
 vi.mock("./carousel/Carousel", () => ({
@@ -28,9 +28,11 @@ describe("Skills", () => {
 
     it("should render with custom title and subtitle", () => {
       getRenderer({
-        title: "Technical Expertise",
-        subtitle:
-          "A comprehensive overview of my technical skills and experience",
+        labels: {
+          title: "Technical Expertise",
+          subtitle:
+            "A comprehensive overview of my technical skills and experience",
+        },
       })
 
       expect(getByText("Technical Expertise")).toBeInTheDocument()
@@ -142,7 +144,12 @@ describe("Skills", () => {
 
   describe("content validation", () => {
     it("should handle empty title", () => {
-      getRenderer({ title: "" })
+      getRenderer({
+        labels: {
+          title: "",
+          subtitle: "Technologies I work with",
+        },
+      })
 
       const heading = getByRole("heading", { level: 2 })
       expect(heading).toHaveTextContent("")
@@ -150,8 +157,11 @@ describe("Skills", () => {
 
     it("should handle long title", () => {
       getRenderer({
-        title:
-          "This is a very long title that should still be rendered correctly and maintain proper styling",
+        labels: {
+          subtitle: "Technologies I work with",
+          title:
+            "This is a very long title that should still be rendered correctly and maintain proper styling",
+        },
       })
 
       expect(
@@ -163,8 +173,11 @@ describe("Skills", () => {
 
     it("should handle long subtitle", () => {
       getRenderer({
-        subtitle:
-          "This is a very long subtitle that describes the technologies and skills in great detail, providing comprehensive information about the developer's capabilities and expertise in various domains",
+        labels: {
+          title: "My Skills",
+          subtitle:
+            "This is a very long subtitle that describes the technologies and skills in great detail, providing comprehensive information about the developer's capabilities and expertise in various domains",
+        },
       })
       expect(
         getByText(
@@ -175,8 +188,10 @@ describe("Skills", () => {
 
     it("should handle special characters in title and subtitle", () => {
       getRenderer({
-        title: "Skills & Technologies",
-        subtitle: "Front-end, Back-end & DevOps",
+        labels: {
+          title: "Skills & Technologies",
+          subtitle: "Front-end, Back-end & DevOps",
+        },
       })
 
       expect(getByText("Skills & Technologies")).toBeInTheDocument()
@@ -232,11 +247,11 @@ describe("Skills", () => {
 })
 
 function getRenderer({
-  title = "My Skills",
-  subtitle = "Technologies I work with",
+  labels = {
+    title: "My Skills",
+    subtitle: "Technologies I work with",
+  },
   techItems = mockItems,
 }: Partial<ComponentProps<typeof Skills>> = {}) {
-  return render(
-    <Skills title={title} subtitle={subtitle} techItems={techItems} />
-  )
+  return render(<Skills labels={labels} techItems={techItems} />)
 }

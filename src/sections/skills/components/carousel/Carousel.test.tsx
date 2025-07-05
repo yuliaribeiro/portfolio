@@ -4,7 +4,7 @@ import type { TechItem } from "./hooks/useCarousel"
 import { Carousel } from "./Carousel"
 import type { ComponentProps } from "react"
 import { mockItems } from "./utils/getMockCarousel"
-import type { Badge } from "../../../components/badge/Badge"
+import type { Badge } from "../../../../components/badge/Badge"
 import { type ChevronRight, type ChevronLeft } from "lucide-react"
 
 // Mock the Badge component

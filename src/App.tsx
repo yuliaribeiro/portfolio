@@ -4,8 +4,8 @@ import { Contact } from "./sections/contact/Contact"
 import { Footer } from "./sections/footer/Footer"
 import { HomeSection } from "./sections/home/HomeSection"
 import { Projects } from "./sections/projects/Projects"
-import { mockItems } from "./sections/skills/carousel/utils/getMockCarousel"
-import { Skills } from "./sections/skills/Skills"
+import { mockItems } from "./sections/skills/components/carousel/utils/getMockCarousel"
+import { SkillsSection } from "./sections/skills/SkillsSection"
 
 /*
   TODO: PAGE UNDER CONSTRUCTION ! 
@@ -38,11 +38,7 @@ function App() {
           qrCodeSrc=""
         ></AboutSection>
 
-        <Skills
-          techItems={mockItems}
-          title="Skills & Expertise"
-          subtitle=" Technologies I work with to bring ideas to life"
-        ></Skills>
+        <SkillsSection techItems={mockItems} />
 
         <Projects
           pageTitle=" Featured Projects"
