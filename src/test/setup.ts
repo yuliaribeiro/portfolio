@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom"
 import { vi } from "vitest"
+import type * as reactI18next from "react-i18next"
 
 // Mock cn utility
 vi.mock("@/utils", () => ({
@@ -15,7 +16,7 @@ vi.mock("react-i18next", () => ({
 
 // Mock react-i18next
 vi.mock("react-i18next", async () => {
-  const actual = await vi.importActual<any>("react-i18next")
+  const actual = await vi.importActual<typeof reactI18next>("react-i18next")
 
   return {
     ...actual,
