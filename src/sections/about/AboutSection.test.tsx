@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from "vitest"
 import { render, screen } from "@testing-library/react"
 import { AboutSection } from "./AboutSection"
-import type { AboutActions } from "./types/aboutTypes"
 
 // Mock i18n with array
 vi.mock("react-i18next", () => ({
@@ -18,14 +17,10 @@ vi.mock("react-i18next", () => ({
 const { getByText, getByAltText, getByRole } = screen
 
 describe("AboutSection", () => {
-  const mockActions: AboutActions = {
-    primaryAction: vi.fn(),
-  }
-
   const mockQrCodeSrc = "https://example.com/qr-code.png"
 
   it("should render translated labels inside About", () => {
-    render(<AboutSection actions={mockActions} qrCodeSrc={mockQrCodeSrc} />)
+    render(<AboutSection />)
 
     expect(getByText("translated:labels.sectionInfo.title")).toBeInTheDocument()
 
@@ -48,6 +43,5 @@ describe("AboutSection", () => {
 
     const image = getByAltText("translated:labels.qrCodeInfo.imageAlt")
     expect(image).toBeInTheDocument()
-    expect(image).toHaveAttribute("src", mockQrCodeSrc)
   })
 })
