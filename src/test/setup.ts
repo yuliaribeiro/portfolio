@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom"
 import { vi } from "vitest"
+import type * as reactI18next from "react-i18next"
 
-// Mock do cn utility
+// Mock cn utility
 vi.mock("@/utils", () => ({
   cn: (...classes: string[]) => classes.filter(Boolean).join(" "),
 }))
@@ -12,3 +13,19 @@ vi.mock("react-i18next", () => ({
     t: (key: string) => `translated:${key}`,
   }),
 }))
+
+// Mock react-i18next
+vi.mock("react-i18next", async () => {
+  const actual = await vi.importActual<typeof reactI18next>("react-i18next")
+
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => key,
+      i18n: {
+        changeLanguage: vi.fn(),
+        language: "en",
+      },
+    }),
+  }
+})

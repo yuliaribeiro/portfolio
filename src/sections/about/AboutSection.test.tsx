@@ -17,8 +17,6 @@ vi.mock("react-i18next", () => ({
 const { getByText, getByAltText, getByRole } = screen
 
 describe("AboutSection", () => {
-  const mockQrCodeSrc = "https://example.com/qr-code.png"
-
   it("should render translated labels inside About", () => {
     render(<AboutSection />)
 

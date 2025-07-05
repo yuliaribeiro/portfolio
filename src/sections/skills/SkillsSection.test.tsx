@@ -7,8 +7,8 @@ describe("SkillsSection", () => {
   it("should render translated labels inside Skills", () => {
     getRenderer()
 
-    expect(getByText("translated:labels.title")).toBeInTheDocument()
-    expect(getByText("translated:labels.subtitle")).toBeInTheDocument()
+    expect(getByText("labels.title")).toBeInTheDocument()
+    expect(getByText("labels.subtitle")).toBeInTheDocument()
 
     expect(getByText("React")).toBeInTheDocument()
   })
