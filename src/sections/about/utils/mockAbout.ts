@@ -1,7 +1,13 @@
-export function getMockAboutData(overrides = {}) {
-  return {
-    onClick: vi.fn(),
-    buttonLabel: "Download CV",
+import type { AboutActions, AboutLabels, AboutProps } from "../types/aboutTypes"
+
+type PartialMockData = {
+  labels?: Partial<AboutLabels>
+  actions?: Partial<AboutActions>
+  qrCodeSrc?: Partial<Pick<AboutProps, "qrCodeSrc">["qrCodeSrc"]>
+}
+
+export function getMockAboutData(overrides: PartialMockData = {}) {
+  const defaultLabels: AboutLabels = {
     sectionInfo: {
       title: "About Me",
       descriptions: [
@@ -11,13 +17,30 @@ export function getMockAboutData(overrides = {}) {
       ],
     },
     qrCodeInfo: {
-      imageSrc: "/images/qr-code-download.png",
       imageAlt: "QR Code to download curriculum",
       title: "Quick Download",
       description:
         "Scan the QR code to download my curriculum vitae instantly.",
       alternativeText: "Or click the button below to download directly",
     },
-    ...overrides,
+    primaryActionLabel: "Download CV",
+  }
+
+  const defaultActions: AboutActions = {
+    primaryAction: vi.fn(),
+  }
+
+  const qrCodeSrc: AboutProps["qrCodeSrc"] = "/images/qr-code-download.png"
+
+  return {
+    labels: {
+      ...defaultLabels,
+      ...(overrides.labels ?? {}),
+    },
+    actions: {
+      ...defaultActions,
+      ...(overrides.actions ?? {}),
+    },
+    qrCodeSrc: overrides.qrCodeSrc ?? qrCodeSrc,
   }
 }

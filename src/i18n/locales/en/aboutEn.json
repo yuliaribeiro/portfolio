@@ -1,0 +1,20 @@
+{
+  "labels": {
+    "sectionInfo": {
+      "title": "About Me",
+      "descriptions": [
+        "I'm a passionate frontend developer driven by a simple principle: great user experiences start with great code.",
+        "With over 3 years of hands-on experience in React, TypeScript, and modern web technologies, I transform ideas into robust, scalable, and elegant solutions. I don't just ship features—I build interfaces that are intuitive, accessible, and designed to perform at scale.",
+        "Beyond code, I bring a mindset of ownership, collaboration, and continuous improvement. I thrive in agile environments, contribute actively to technical discussions, and value clean, tested, and well-documented code as a foundation for long-term success.",
+        "If you're looking for someone who will care as much about your product as you do—who combines technical skill with strategic thinking—I’d love to hear from you."
+      ]
+    },
+    "qrCodeInfo": {
+      "imageAlt": "QR Code to download curriculum",
+      "title": "Quick Download",
+      "description": "Scan the QR code with your phone to instantly download my resume",
+      "alternativeText": "Or click the button above to download directly"
+    },
+    "primaryActionLabel": "Download Resume"
+  }
+}
