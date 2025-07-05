@@ -10,18 +10,16 @@ describe("HomeSection", () => {
       screen.getByRole("heading", { name: "Juliana Ribeiro" })
     ).toBeInTheDocument()
 
-    expect(screen.getByText("translated:labels.subtitle")).toBeInTheDocument()
-    expect(
-      screen.getByText("translated:labels.description")
-    ).toBeInTheDocument()
+    expect(screen.getByText("labels.subtitle")).toBeInTheDocument()
+    expect(screen.getByText("labels.description")).toBeInTheDocument()
     expect(
       screen.getByRole("button", {
-        name: "translated:labels.primaryActionLabel",
+        name: "labels.primaryActionLabel",
       })
     ).toBeInTheDocument()
     expect(
       screen.getByRole("button", {
-        name: "translated:labels.secondaryActionLabel",
+        name: "labels.secondaryActionLabel",
       })
     ).toBeInTheDocument()
   })

@@ -1,0 +1,16 @@
+{
+  "labels": {
+    "pageTitle": "Projetos em Destaque",
+    "projectInfo": {
+      "petplace": {
+        "description": "Uma plataforma digital focada no cuidado com pets, criada para ser um hub completo para tutores. Oferece recursos para adoção, seguros, apoio em casos de animais perdidos e conteúdo informativo."
+      },
+      "shelterbuddy": {
+        "description": "Uma plataforma que conecta abrigos de animais a possíveis adotantes, promovendo uma rede de apoio e comunidade para pets que precisam de um novo lar."
+      },
+      "simplyas": {
+        "description": "Uma empresa que promove um modelo de trabalho inovador, com foco em comunidades e tecnologia para a era pós-digital."
+      }
+    }
+  }
+}
