@@ -1,6 +1,6 @@
 import { Navbar } from "./components/navbar/Navbar"
 import { AboutSection } from "./sections/about/AboutSection"
-import { Contact } from "./sections/contact/Contact"
+import { ContactSection } from "./sections/contact/ContactSection"
 import { Footer } from "./sections/footer/Footer"
 import { HomeSection } from "./sections/home/HomeSection"
 import { Projects } from "./sections/projects/Projects"
@@ -67,14 +67,7 @@ function App() {
           ]}
         ></Projects>
 
-        <Contact
-          contactInfo={{
-            title: "Let's Work Together",
-            primaryButtonLabel: "Send Email",
-            subtitle:
-              "I'm always interested in new opportunities and exciting projects. Let's create something amazing together!",
-          }}
-        ></Contact>
+        <ContactSection />
       </main>
 
       <Footer></Footer>
