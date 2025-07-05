@@ -1,5 +1,5 @@
 import { Navbar } from "./components/navbar/Navbar"
-import { About } from "./sections/about/About"
+import { AboutSection } from "./sections/about/AboutSection"
 import { Contact } from "./sections/contact/Contact"
 import { Footer } from "./sections/footer/Footer"
 import { HomeSection } from "./sections/home/HomeSection"
@@ -31,27 +31,12 @@ function App() {
           }}
         />
 
-        <About
-          data={{
-            onClick: () => {},
-            buttonLabel: "Download Resume",
-            sectionInfo: {
-              title: "About Me",
-              descriptions: [
-                "I'm a frontend software engineer with a passion for creating beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-                "I'm a frontend software engineer with a passion for creating beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-              ],
-            },
-            qrCodeInfo: {
-              imageAlt: "QR Code to download curriculum",
-              imageSrc: "",
-              title: "Quick Download ",
-              description:
-                "Scan the QR code with your phone to instantly download my resume",
-              alternativeText: "Or click the button above to download directly",
-            },
+        <AboutSection
+          actions={{
+            primaryAction: () => {},
           }}
-        ></About>
+          qrCodeSrc=""
+        ></AboutSection>
 
         <Skills
           techItems={mockItems}
