@@ -2,7 +2,7 @@ import { Navbar } from "./components/navbar/Navbar"
 import { About } from "./sections/about/About"
 import { Contact } from "./sections/contact/Contact"
 import { Footer } from "./sections/footer/Footer"
-import { Home } from "./sections/home/Home"
+import { HomeSection } from "./sections/home/HomeSection"
 import { Projects } from "./sections/projects/Projects"
 import { mockItems } from "./sections/skills/carousel/utils/getMockCarousel"
 import { Skills } from "./sections/skills/Skills"
@@ -24,22 +24,12 @@ function App() {
             { label: "Contact", sectionId: "contact" },
           ]}
         ></Navbar>
-        <Home
-          hero={{
-            title: "Juliana Ribeiro",
-            subtitle: "Frontend Software Engineer",
-            description:
-              "I create beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-            primaryAction: {
-              onClick: () => {},
-              label: "View My Work",
-            },
-            secondaryAction: {
-              onClick: () => {},
-              label: "Get In Touch",
-            },
+        <HomeSection
+          actions={{
+            primaryAction: () => {},
+            secondaryAction: () => {},
           }}
-        ></Home>
+        />
 
         <About
           data={{

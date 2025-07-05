@@ -1,16 +1,32 @@
-export function getMockHeroData(overrides = {}) {
-  return {
+import type { HomeActions, HomeLabels } from "../types/homeTypes"
+
+type PartialMockData = {
+  labels?: Partial<HomeLabels>
+  actions?: Partial<HomeActions>
+}
+
+export function getMockHeroData(overrides: PartialMockData = {}) {
+  const defaultLabels: HomeLabels = {
     title: "Test Title",
     subtitle: "Test Subtitle",
     description: "Test Description",
-    primaryAction: {
-      label: "Primary Action",
-      onClick: vi.fn(),
+    primaryActionLabel: "Primary Action",
+    secondaryActionLabel: "Secondary Action",
+  }
+
+  const defaultActions: HomeActions = {
+    primaryAction: vi.fn(),
+    secondaryAction: vi.fn(),
+  }
+
+  return {
+    labels: {
+      ...defaultLabels,
+      ...(overrides.labels ?? {}),
     },
-    secondaryAction: {
-      label: "Secondary Action",
-      onClick: vi.fn(),
+    actions: {
+      ...defaultActions,
+      ...(overrides.actions ?? {}),
     },
-    ...overrides,
   }
 }

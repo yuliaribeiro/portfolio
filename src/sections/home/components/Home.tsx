@@ -1,25 +1,21 @@
-import { Button } from "../../components/button/Button"
-
-type HeroSectionContent = {
-  title: string
-  subtitle: string
-  description: string
-  primaryAction: {
-    label: string
-    onClick: () => void
-  }
-  secondaryAction: {
-    label: string
-    onClick: () => void
-  }
-}
+import { Button } from "../../../components/button/Button"
+import type { HomeActions, HomeLabels } from "../types/homeTypes"
 
 type HomeProps = {
-  hero: HeroSectionContent
+  actions: HomeActions
+  labels: HomeLabels
 }
 
-export const Home = ({ hero }: HomeProps) => {
-  const { title, subtitle, description, primaryAction, secondaryAction } = hero
+export const Home = ({ actions, labels }: HomeProps) => {
+  const {
+    title,
+    subtitle,
+    description,
+    primaryActionLabel,
+    secondaryActionLabel,
+  } = labels
+  const { primaryAction, secondaryAction } = actions
+
   return (
     <section
       id="home"
@@ -56,9 +52,9 @@ export const Home = ({ hero }: HomeProps) => {
         className="animate-slide-up mt-8 flex w-full flex-col-reverse justify-center gap-6 md:mt-12 md:flex-row"
         style={{ animationDelay: "0.6s" }}
       >
-        <Button onClick={primaryAction.onClick}>{primaryAction.label}</Button>
-        <Button variant="outline" onClick={secondaryAction.onClick}>
-          {secondaryAction.label}
+        <Button onClick={primaryAction}>{primaryActionLabel}</Button>
+        <Button variant="outline" onClick={secondaryAction}>
+          {secondaryActionLabel}
         </Button>
       </div>
     </section>

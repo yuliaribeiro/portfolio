@@ -5,3 +5,10 @@ import { vi } from "vitest"
 vi.mock("@/utils", () => ({
   cn: (...classes: string[]) => classes.filter(Boolean).join(" "),
 }))
+
+// Mock useTranslation
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => `translated:${key}`,
+  }),
+}))
