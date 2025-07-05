@@ -1,37 +1,39 @@
 import { render, screen } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi } from "vitest"
 import { Projects } from "./Projects"
 import type { ComponentProps } from "react"
 
-vi.mock("../../components/badge/Badge", () => ({
+vi.mock("../../../components/badge/Badge", () => ({
   Badge: ({ children }: { children: React.ReactNode }) => (
     <span data-testid="badge">{children}</span>
   ),
 }))
 
-vi.mock("../../components/button/Button", () => ({
+vi.mock("../../../components/button/Button", () => ({
   Button: ({
     children,
     variant,
+    ...props
   }: {
     children: React.ReactNode
     variant?: string
   }) => (
-    <button data-testid="button" data-variant={variant}>
+    <button data-testid="button" data-variant={variant} {...props}>
       {children}
     </button>
   ),
 }))
 
-vi.mock("../../components/card/Card", () => ({
+vi.mock("../../../components/card/Card", () => ({
   Card: ({
     children,
     className,
+    ...props
   }: {
     children: React.ReactNode
     className?: string
   }) => (
-    <div data-testid="card" className={className}>
+    <div data-testid="card" className={className} {...props}>
       {children}
     </div>
   ),
@@ -277,6 +279,7 @@ const mockProjectsInfo = [
     link: "https://project2.com",
   },
 ]
+
 function getRenderer({
   pageTitle = "My Projects",
   projectsInfo = mockProjectsInfo,
