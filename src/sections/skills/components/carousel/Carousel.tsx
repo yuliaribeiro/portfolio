@@ -1,8 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { useCarousel, type TechItem } from "./hooks/useCarousel"
-import { Badge } from "../../../components/badge/Badge"
-import { cn } from "../../../utils"
+import { Badge } from "../../../../components/badge/Badge"
+import { cn } from "../../../../utils"
 type CarouselProps = {
   items: TechItem[]
 }

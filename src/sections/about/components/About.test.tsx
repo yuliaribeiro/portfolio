@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { About } from "./About"
 import type { ComponentProps } from "react"
-import { getMockAboutData } from "./utils/mockAbout"
+import { getMockAboutData } from "../utils/mockAbout"
 
 const { getByRole, getByAltText, getByText, queryByText } = screen
 
@@ -15,21 +15,21 @@ describe("About Component", () => {
 
   describe("Rendering", () => {
     it("should render the section with correct id", () => {
-      const { container } = getRenderer({ data: mockData })
+      const { container } = getRenderer({ ...mockData })
 
       const section = container.querySelector("#about")
       expect(section).toHaveAttribute("id", "about")
     })
 
     it("should render the section title", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const title = getByRole("heading", { level: 2 })
       expect(title).toHaveTextContent("About Me")
     })
 
     it("should render all description paragraphs", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       expect(
         getByText(
@@ -47,7 +47,7 @@ describe("About Component", () => {
     })
 
     it("should render QR code section with correct content", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const qrTitle = getByRole("heading", { level: 3 })
       expect(qrTitle).toHaveTextContent("Quick Download")
@@ -61,7 +61,7 @@ describe("About Component", () => {
     })
 
     it("should render QR code image with correct attributes", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const qrImage = getByAltText("QR Code to download curriculum")
       expect(qrImage).toHaveAttribute("src", "/images/qr-code-download.png")
@@ -69,14 +69,14 @@ describe("About Component", () => {
     })
 
     it("should render download button with correct label", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const downloadButton = getByRole("button", { name: /download cv/i })
       expect(downloadButton).toBeInTheDocument()
     })
 
     it("should render download icon in button", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       // lucide-react download icon
       const downloadIcon = getByRole("button").querySelector("svg")
@@ -87,20 +87,20 @@ describe("About Component", () => {
   describe("Interactions", () => {
     it("should call onClick when download button is clicked", async () => {
       const user = userEvent.setup()
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const downloadButton = getByRole("button", { name: /download cv/i })
 
-      expect(mockData.onClick).not.toHaveBeenCalled()
+      expect(mockData.actions.primaryAction).not.toHaveBeenCalled()
 
       await user.click(downloadButton)
 
-      expect(mockData.onClick).toHaveBeenCalledTimes(1)
+      expect(mockData.actions.primaryAction).toHaveBeenCalledTimes(1)
     })
 
     it("should handle multiple clicks correctly", async () => {
       const user = userEvent.setup()
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const downloadButton = getByRole("button", { name: /download cv/i })
 
@@ -108,20 +108,22 @@ describe("About Component", () => {
       await user.click(downloadButton)
       await user.click(downloadButton)
 
-      expect(mockData.onClick).toHaveBeenCalledTimes(3)
+      expect(mockData.actions.primaryAction).toHaveBeenCalledTimes(3)
     })
   })
 
   describe("Dynamic Content", () => {
     it("should render with custom section title", () => {
       const customData = getMockAboutData({
-        sectionInfo: {
-          title: "Custom About Title",
-          descriptions: ["Custom description"],
+        labels: {
+          sectionInfo: {
+            title: "Custom About Title",
+            descriptions: ["Custom description"],
+          },
         },
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       expect(getByRole("heading", { level: 2 })).toHaveTextContent(
         "Custom About Title"
@@ -130,10 +132,12 @@ describe("About Component", () => {
 
     it("should render with custom button label", () => {
       const customData = getMockAboutData({
-        buttonLabel: "Get My Resume",
+        labels: {
+          primaryActionLabel: "Get my resume",
+        },
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       expect(
         getByRole("button", { name: /get my resume/i })
@@ -142,14 +146,17 @@ describe("About Component", () => {
 
     it("should render with custom QR code information", () => {
       const customData = getMockAboutData({
-        qrCodeInfo: {
-          title: "Custom QR Title",
-          description: "Custom QR description",
-          alternativeText: "Custom alternative text",
+        labels: {
+          qrCodeInfo: {
+            title: "Custom QR Title",
+            description: "Custom QR description",
+            alternativeText: "Custom alternative text",
+            imageAlt: "Custom QR code for testing",
+          },
         },
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       expect(getByRole("heading", { level: 3 })).toHaveTextContent(
         "Custom QR Title"
@@ -160,13 +167,15 @@ describe("About Component", () => {
 
     it("should render different number of descriptions", () => {
       const customData = getMockAboutData({
-        sectionInfo: {
-          title: "About Me",
-          descriptions: ["First description", "Second description"],
+        labels: {
+          sectionInfo: {
+            descriptions: ["First description", "Second description"],
+            title: "About Me",
+          },
         },
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       expect(getByText("First description")).toBeInTheDocument()
       expect(getByText("Second description")).toBeInTheDocument()
@@ -177,13 +186,15 @@ describe("About Component", () => {
 
     it("should handle empty descriptions array", () => {
       const customData = getMockAboutData({
-        sectionInfo: {
-          title: "About Me",
-          descriptions: [],
+        labels: {
+          sectionInfo: {
+            title: "About Me",
+            descriptions: [],
+          },
         },
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       expect(getByRole("heading", { level: 2 })).toHaveTextContent("About Me")
       expect(
@@ -194,7 +205,7 @@ describe("About Component", () => {
 
   describe("Accessibility", () => {
     it("should have proper heading hierarchy", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const h2 = getByRole("heading", { level: 2 })
       const h3 = getByRole("heading", { level: 3 })
@@ -204,7 +215,7 @@ describe("About Component", () => {
     })
 
     it("should have descriptive alt text for QR code image", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const qrImage = getByAltText("QR Code to download curriculum")
       expect(qrImage).toBeInTheDocument()
@@ -212,21 +223,23 @@ describe("About Component", () => {
 
     it("should render with custom image src and alt text", () => {
       const customData = getMockAboutData({
-        qrCodeInfo: {
-          ...mockData.qrCodeInfo,
-          imageSrc: "/test/custom-qr.jpg",
-          imageAlt: "Custom QR code for testing",
+        labels: {
+          qrCodeInfo: {
+            ...mockData.labels.qrCodeInfo,
+            imageAlt: "Custom QR code for testing",
+          },
         },
+        qrCodeSrc: "/test/custom-qr.jpg",
       })
 
-      getRenderer({ data: customData })
+      getRenderer({ ...customData })
 
       const qrImage = screen.getByAltText("Custom QR code for testing")
       expect(qrImage).toHaveAttribute("src", "/test/custom-qr.jpg")
     })
 
     it("should have accessible button", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const button = getByRole("button", { name: /download cv/i })
       expect(button).toBeInTheDocument()
@@ -236,14 +249,14 @@ describe("About Component", () => {
 
   describe("CSS Classes", () => {
     it("should apply correct CSS classes to main section", () => {
-      const { container } = getRenderer({ data: mockData })
+      const { container } = getRenderer({ ...mockData })
 
       const section = container.querySelector("#about")
       expect(section).toHaveClass("bg-brand-primary/5", "w-full")
     })
 
     it("should apply animation classes", () => {
-      getRenderer({ data: mockData })
+      getRenderer({ ...mockData })
 
       const title = getByRole("heading", { level: 2 })
       expect(title).toHaveClass("animate-fade-in-up")

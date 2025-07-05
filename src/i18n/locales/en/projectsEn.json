@@ -1,0 +1,16 @@
+{
+  "labels": {
+    "pageTitle": "Featured Projects",
+    "projectInfo": {
+      "petplace": {
+        "description": "A digital platform focused on pet care, aiming to be a one-stop-shop for pet owners. It provides resources for adoption, pet insurance, lost pet support, and informative content."
+      },
+      "shelterbuddy": {
+        "description": "A platform for pet shelters to connect with potential adopters, fostering a sense of community and support for pets in need of a loving home."
+      },
+      "simplyas": {
+        "description": "A company that promotes an innovative work model, emphasizing communities and technology for the post-digital era."
+      }
+    }
+  }
+}

@@ -1,11 +1,10 @@
 import { Navbar } from "./components/navbar/Navbar"
-import { About } from "./sections/about/About"
-import { Contact } from "./sections/contact/Contact"
+import { AboutSection } from "./sections/about/AboutSection"
+import { ContactSection } from "./sections/contact/ContactSection"
 import { Footer } from "./sections/footer/Footer"
-import { Home } from "./sections/home/Home"
-import { Projects } from "./sections/projects/Projects"
-import { mockItems } from "./sections/skills/carousel/utils/getMockCarousel"
-import { Skills } from "./sections/skills/Skills"
+import { HomeSection } from "./sections/home/HomeSection"
+import { ProjectsSection } from "./sections/projects/ProjectsSection"
+import { SkillsSection } from "./sections/skills/SkillsSection"
 
 /*
   TODO: PAGE UNDER CONSTRUCTION ! 
@@ -24,89 +23,18 @@ function App() {
             { label: "Contact", sectionId: "contact" },
           ]}
         ></Navbar>
-        <Home
-          hero={{
-            title: "Juliana Ribeiro",
-            subtitle: "Frontend Software Engineer",
-            description:
-              "I create beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-            primaryAction: {
-              onClick: () => {},
-              label: "View My Work",
-            },
-            secondaryAction: {
-              onClick: () => {},
-              label: "Get In Touch",
-            },
-          }}
-        ></Home>
+        <HomeSection />
 
-        <About
-          data={{
-            onClick: () => {},
-            buttonLabel: "Download Resume",
-            sectionInfo: {
-              title: "About Me",
-              descriptions: [
-                "I'm a frontend software engineer with a passion for creating beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-                "I'm a frontend software engineer with a passion for creating beautiful, functional, and user-centered digital experiences that solve real-world problems with elegant solutions.",
-              ],
-            },
-            qrCodeInfo: {
-              imageAlt: "QR Code to download curriculum",
-              imageSrc: "",
-              title: "Quick Download ",
-              description:
-                "Scan the QR code with your phone to instantly download my resume",
-              alternativeText: "Or click the button above to download directly",
-            },
-          }}
-        ></About>
+        <AboutSection />
 
-        <Skills
-          techItems={mockItems}
-          title="Skills & Expertise"
-          subtitle=" Technologies I work with to bring ideas to life"
-        ></Skills>
+        <SkillsSection />
 
-        <Projects
-          pageTitle=" Featured Projects"
-          projectsInfo={[
-            {
-              title: "Pet Place",
-              description:
-                "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
-              stacks: ["React", "Node.js", "MongoDB"],
-              link: "https://www.shelterbuddy.com/",
-            },
-            {
-              title: "ShelterBuddy",
-              description:
-                "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
-              stacks: ["React", "Node.js", "MongoDB"],
-              link: "https://www.shelterbuddy.com/",
-            },
-            {
-              title: "Simply As",
-              description:
-                "A modern e-commerce solution built with React and Node.js, featuring real-time inventory management and secure payment processing.",
-              stacks: ["React", "Node.js", "MongoDB"],
-              link: "https://www.shelterbuddy.com/",
-            },
-          ]}
-        ></Projects>
+        <ProjectsSection />
 
-        <Contact
-          contactInfo={{
-            title: "Let's Work Together",
-            primaryButtonLabel: "Send Email",
-            subtitle:
-              "I'm always interested in new opportunities and exciting projects. Let's create something amazing together!",
-          }}
-        ></Contact>
+        <ContactSection />
       </main>
 
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }

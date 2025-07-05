@@ -1,28 +1,16 @@
 import { Download } from "lucide-react"
-import { Button } from "../../components/button/Button"
 
-type AboutSectionContent = {
-  onClick: () => void
-  buttonLabel: string
-  sectionInfo: {
-    title: string
-    descriptions: string[]
-  }
-  qrCodeInfo: {
-    imageSrc: string
-    imageAlt: string
-    title: string
-    description: string
-    alternativeText: string
-  }
-}
+import type { AboutProps } from "../types/aboutTypes"
+import { Button } from "../../../components/button/Button"
 
-type AboutProps = {
-  data: AboutSectionContent
-}
+export const About = ({ actions, labels, qrCodeSrc }: AboutProps) => {
+  const { sectionInfo, qrCodeInfo, primaryActionLabel } = labels
+  const { primaryAction } = actions
 
-export const About = ({ data }: AboutProps) => {
-  const { onClick, buttonLabel, sectionInfo, qrCodeInfo } = data
+  const descriptions = Array.isArray(sectionInfo.descriptions)
+    ? (sectionInfo.descriptions as string[])
+    : []
+
   return (
     <section id="about" className="bg-brand-primary/5 w-full">
       <div className="mx-auto max-w-7xl px-4 py-28 md:px-6">
@@ -37,7 +25,7 @@ export const About = ({ data }: AboutProps) => {
               <div className="mb-8">
                 <div className="border-accent mx-auto h-64 w-64 rounded-2xl border-2 bg-white p-6 shadow-lg">
                   <img
-                    src={qrCodeInfo.imageSrc}
+                    src={qrCodeSrc}
                     alt={qrCodeInfo.imageAlt}
                     className="h-full w-full object-contain"
                   />
@@ -54,9 +42,9 @@ export const About = ({ data }: AboutProps) => {
               </div>
 
               <div className="space-y-4">
-                <Button hoverEffect={false} onClick={onClick}>
+                <Button hoverEffect={false} onClick={primaryAction}>
                   <Download size={22} />
-                  {buttonLabel}
+                  {primaryActionLabel}
                 </Button>
 
                 {/* Alternative text */}
@@ -68,7 +56,7 @@ export const About = ({ data }: AboutProps) => {
           </div>
 
           <div className="animate-slide-in-right space-y-7">
-            {sectionInfo.descriptions.map((item, index) => (
+            {descriptions.map((item, index) => (
               <p
                 key={`description-${index}`}
                 className="text-foreground-muted text-xl leading-relaxed"
