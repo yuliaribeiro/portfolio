@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react"
-import { Badge } from "../../components/badge/Badge"
-import { Button } from "../../components/button/Button"
-import { Card } from "../../components/card/Card"
+import { Badge } from "../../../components/badge/Badge"
+import { Button } from "../../../components/button/Button"
+import { Card } from "../../../components/card/Card"
 
 type ProjectsInfo = {
   title: string
