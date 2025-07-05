@@ -8,11 +8,11 @@ describe("ContactSection", () => {
   it("should render translated labels inside Contact", () => {
     getRenderer()
 
-    expect(getByText("translated:labels.title")).toBeInTheDocument()
-    expect(getByText("translated:labels.subtitle")).toBeInTheDocument()
+    expect(getByText("labels.title")).toBeInTheDocument()
+    expect(getByText("labels.subtitle")).toBeInTheDocument()
     expect(
       getByRole("button", {
-        name: "translated:labels.primaryActionLabel",
+        name: "labels.primaryActionLabel",
       })
     ).toBeInTheDocument()
   })
