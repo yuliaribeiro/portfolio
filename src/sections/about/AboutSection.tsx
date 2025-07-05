@@ -1,16 +1,7 @@
 import { useTranslation } from "react-i18next"
-import type { AboutActions, AboutProps } from "./types/aboutTypes"
 import { About } from "./components/About"
 
-type AboutQrCodeSrcProp = Pick<AboutProps, "qrCodeSrc">["qrCodeSrc"]
-
-export const AboutSection = ({
-  actions,
-  qrCodeSrc,
-}: {
-  actions: AboutActions
-  qrCodeSrc: AboutQrCodeSrcProp
-}) => {
+export const AboutSection = () => {
   const { t } = useTranslation("about")
 
   const labels = {
@@ -27,6 +18,12 @@ export const AboutSection = ({
       alternativeText: t("labels.qrCodeInfo.alternativeText"),
     },
     primaryActionLabel: t("labels.primaryActionLabel"),
+  }
+
+  const qrCodeSrc = "/images/qr-code-download.png"
+
+  const actions = {
+    primaryAction: () => {},
   }
 
   return <About actions={actions} labels={labels} qrCodeSrc={qrCodeSrc} />
