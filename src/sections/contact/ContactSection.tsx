@@ -10,5 +10,11 @@ export const ContactSection = () => {
     primaryActionLabel: t("labels.primaryActionLabel"),
   }
 
-  return <Contact labels={labels} />
+  const actions = {
+    emailHref: "mailto:lutchenikova@gmail.com",
+    githubLink: "https://github.com/yuliaribeiro",
+    linkedinLink: "https://www.linkedin.com/in/juliana-ribeiro-039883220/",
+  }
+
+  return <Contact labels={labels} actions={actions} />
 }

@@ -3,3 +3,9 @@ export type ContactLabels = {
   subtitle: string
   primaryActionLabel: string
 }
+
+export type ContactActions = {
+  emailHref: string
+  githubLink: string
+  linkedinLink: string
+}

@@ -2,20 +2,26 @@ import { render, screen } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import { Contact } from "./Contact"
 import type { ComponentProps } from "react"
-import type { Button } from "../../../components/button/Button"
+import React from "react"
 
 // Mock Button component
 vi.mock("../../components/button/Button", () => ({
-  Button: ({
-    children,
-    className,
-    variant,
-    ...props
-  }: ComponentProps<typeof Button>) => (
-    <button className={className} data-variant={variant} {...props}>
-      {children}
-    </button>
-  ),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Button: ({ children, asChild, className, variant, ...props }: any) => {
+    if (asChild) {
+      return React.cloneElement(children, {
+        ...props,
+        className,
+        "data-variant": variant,
+      })
+    }
+
+    return (
+      <button className={className} data-variant={variant} {...props}>
+        {children}
+      </button>
+    )
+  },
 }))
 
 // Mock lucide-react
@@ -52,14 +58,14 @@ describe("Contact", () => {
     it("should render all buttons", () => {
       getRenderer()
 
-      const buttons = getAllByRole("button")
+      const buttons = getAllByRole("link")
       expect(buttons).toHaveLength(3)
     })
 
     it("should render primary button with correct label and icon", () => {
       getRenderer()
 
-      const primaryButton = getByRole("button", {
+      const primaryButton = getByRole("link", {
         name: /Mail Icon Send Email/i,
       })
       expect(primaryButton).toBeInTheDocument()
@@ -69,7 +75,7 @@ describe("Contact", () => {
     it("should render GitHub button with correct icon", () => {
       getRenderer()
 
-      const buttons = getAllByRole("button")
+      const buttons = getAllByRole("link")
       const githubButton = buttons.find((button) =>
         button.querySelector("i.devicon-github-plain")
       )
@@ -79,7 +85,7 @@ describe("Contact", () => {
     it("should render LinkedIn button with correct icon", () => {
       getRenderer()
 
-      const buttons = getAllByRole("button")
+      const buttons = getAllByRole("link")
       const linkedinButton = buttons.find((button) =>
         button.querySelector("i.devicon-linkedin-plain")
       )
@@ -149,7 +155,7 @@ describe("Contact", () => {
     it("should have primary button with no variant specified", () => {
       getRenderer()
 
-      const primaryButton = getByRole("button", {
+      const primaryButton = getByRole("link", {
         name: /Mail Icon Send Email/i,
       })
       expect(primaryButton).not.toHaveAttribute("data-variant")
@@ -158,7 +164,7 @@ describe("Contact", () => {
     it("should have secondary buttons with correct variant and classes", () => {
       getRenderer()
 
-      const buttons = getAllByRole("button")
+      const buttons = getAllByRole("link")
       const secondaryButtons = buttons.filter(
         (button) =>
           button.getAttribute("aria-label") === "GitHub Link" ||
@@ -233,7 +239,7 @@ describe("Contact", () => {
 
       getRenderer({ labels: customContactInfo })
 
-      const primaryButton = getByRole("button", {
+      const primaryButton = getByRole("link", {
         name: /Mail Icon Contact Now/i,
       })
       expect(primaryButton).toBeInTheDocument()
@@ -258,10 +264,10 @@ describe("Contact", () => {
     it("should have buttons that are keyboard accessible", () => {
       getRenderer()
 
-      const buttons = getAllByRole("button")
+      const buttons = getAllByRole("link")
       buttons.forEach((button) => {
         expect(button).toBeInTheDocument()
-        expect(button.tagName).toBe("BUTTON")
+        expect(button.tagName).toBe("A") // Ensure it's an anchor tag
       })
     })
   })
@@ -307,7 +313,7 @@ describe("Contact", () => {
 
       const title = getByRole("heading", { level: 2 })
       const subtitle = document.querySelector("p.animate-fade-in-up")
-      const primaryButton = getByRole("button", { name: /Mail Icon/i })
+      const primaryButton = getByRole("link", { name: /Mail Icon/i })
 
       expect(title).toHaveTextContent("")
       expect(subtitle).toBeInTheDocument()
@@ -329,7 +335,7 @@ describe("Contact", () => {
         getByText('Subtitle with "quotes" and other special characters')
       ).toBeInTheDocument()
       expect(
-        getByRole("button", { name: /Button & Action/i })
+        getByRole("link", { name: /Button & Action/i })
       ).toBeInTheDocument()
     })
 
@@ -349,10 +355,40 @@ describe("Contact", () => {
       )
       expect(getByText(longTextContactInfo.subtitle)).toBeInTheDocument()
       expect(
-        getByRole("button", {
+        getByRole("link", {
           name: new RegExp(longTextContactInfo.primaryActionLabel, "i"),
         })
       ).toBeInTheDocument()
+    })
+
+    describe("Actions", () => {
+      it("should have correct mailto link", () => {
+        getRenderer()
+        const emailLink = getByRole("link", { name: /Send Email/i })
+        expect(emailLink).toHaveAttribute("href", mockContactActions.emailHref)
+      })
+
+      it("should have correct GitHub link", () => {
+        getRenderer()
+        const githubLink = screen.getByLabelText("GitHub Link")
+        expect(githubLink).toHaveAttribute(
+          "href",
+          mockContactActions.githubLink
+        )
+        expect(githubLink).toHaveAttribute("target", "_blank")
+        expect(githubLink).toHaveAttribute("rel", "noopener noreferrer")
+      })
+
+      it("should have correct LinkedIn link", () => {
+        getRenderer()
+        const linkedinLink = screen.getByLabelText("LinkedIn Link")
+        expect(linkedinLink).toHaveAttribute(
+          "href",
+          mockContactActions.linkedinLink
+        )
+        expect(linkedinLink).toHaveAttribute("target", "_blank")
+        expect(linkedinLink).toHaveAttribute("rel", "noopener noreferrer")
+      })
     })
   })
 })
@@ -362,8 +398,14 @@ const mockContactInfo = {
   subtitle: "Let's talk about your projects and ideas",
   primaryActionLabel: "Send Email",
 }
+const mockContactActions = {
+  emailHref: "emailHref",
+  githubLink: "https://github.com",
+  linkedinLink: "https://www.linkedin.com",
+}
 function getRenderer({
   labels = mockContactInfo,
+  actions = mockContactActions,
 }: Partial<ComponentProps<typeof Contact>> = {}) {
-  return render(<Contact labels={labels} />)
+  return render(<Contact labels={labels} actions={actions} />)
 }
