@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Skills } from "./components/Skills"
-import { mockItems } from "./components/carousel/utils/getMockCarousel"
+import { techItems } from "./utils/stacks"
 
 export const SkillsSection = () => {
   const { t } = useTranslation("skills")
@@ -10,5 +10,5 @@ export const SkillsSection = () => {
     subtitle: t("labels.subtitle"),
   }
 
-  return <Skills techItems={mockItems} labels={labels} />
+  return <Skills techItems={techItems} labels={labels} />
 }

@@ -8,19 +8,19 @@ export const ProjectsSection = () => {
     {
       id: "petplace",
       title: "PetPlace",
-      stacks: ["React", "TypeScript", "Node.js", "MongoDB"],
+      stacks: ["React", "Docker", "AEM", "Tailwind"],
       link: "https://petplace.com",
     },
     {
       id: "shelterbuddy",
       title: "ShelterBuddy",
-      stacks: ["Vue.js", "Express", "PostgreSQL", "Docker"],
+      stacks: ["React", "GraphQL", "TypeScript", "Redux"],
       link: "https://shelterbuddy.com",
     },
     {
       id: "simplyas",
       title: "Simply As",
-      stacks: ["Next.js", "Prisma", "tRPC", "Tailwind"],
+      stacks: ["React", "Mobx", "Firebase", "Rest API"],
       link: "https://simplyas.com",
     },
   ]
