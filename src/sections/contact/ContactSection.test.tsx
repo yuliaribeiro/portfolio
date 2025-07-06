@@ -11,7 +11,7 @@ describe("ContactSection", () => {
     expect(getByText("labels.title")).toBeInTheDocument()
     expect(getByText("labels.subtitle")).toBeInTheDocument()
     expect(
-      getByRole("button", {
+      getByRole("link", {
         name: "labels.primaryActionLabel",
       })
     ).toBeInTheDocument()
