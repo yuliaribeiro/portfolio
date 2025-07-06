@@ -12,7 +12,7 @@ type NavItem = {
 
 type NavbarProps = React.HTMLAttributes<HTMLElement> & {
   logo?: React.ReactNode
-  items: NavItem[]
+  items: readonly NavItem[]
   activeSection?: string
   onItemClick?: (sectionId: string) => void
 }

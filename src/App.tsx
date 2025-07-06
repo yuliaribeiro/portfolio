@@ -1,4 +1,7 @@
 import { Navbar } from "./components/navbar/Navbar"
+import { navItems } from "./config/nav.config"
+import { useActiveSection } from "./hooks/useActiveSection"
+import { useScrollNavigation } from "./hooks/useScrollNavigation"
 import { AboutSection } from "./sections/about/AboutSection"
 import { ContactSection } from "./sections/contact/ContactSection"
 import { Footer } from "./sections/footer/Footer"
@@ -12,16 +15,18 @@ import { SkillsSection } from "./sections/skills/SkillsSection"
 */
 function App() {
   // document.documentElement.classList.add("dark")
+
+  const scrollToSection = useScrollNavigation()
+  const sectionIds = navItems.map((item) => item.sectionId)
+  const activeSection = useActiveSection(sectionIds)
+
   return (
     <>
       <main className="mx-auto min-h-screen w-full flex-1 space-y-32">
         <Navbar
-          items={[
-            { label: "Home", sectionId: "home" },
-            { label: "About", sectionId: "about" },
-            { label: "Projects", sectionId: "projects" },
-            { label: "Contact", sectionId: "contact" },
-          ]}
+          items={navItems}
+          activeSection={activeSection ?? ""}
+          onItemClick={scrollToSection}
         ></Navbar>
         <HomeSection />
 
