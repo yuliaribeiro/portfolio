@@ -1,7 +1,8 @@
 import { renderHook, act } from "@testing-library/react"
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
-import { useCarousel, type TechItem } from "./useCarousel"
+import { useCarousel } from "./useCarousel"
 import { mockItems } from "../utils/getMockCarousel"
+import type { TechItem } from "../../../types/skillsTypes"
 
 describe("useCarousel", () => {
   beforeEach(() => {
