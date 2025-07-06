@@ -6,6 +6,7 @@ import React from "react"
 
 // Mock Button component
 vi.mock("../../components/button/Button", () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Button: ({ children, asChild, className, variant, ...props }: any) => {
     if (asChild) {
       return React.cloneElement(children, {
