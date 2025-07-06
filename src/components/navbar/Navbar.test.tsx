@@ -66,7 +66,7 @@ describe("Navbar Component", () => {
   it("should render default logo when no logo prop is provided", () => {
     getRenderer()
 
-    const defaultLogo = getByText("Portfolio")
+    const defaultLogo = getByText("Under Construction")
     expect(defaultLogo).toBeInTheDocument()
     expect(defaultLogo).toHaveClass(
       "font-family-playfair",
