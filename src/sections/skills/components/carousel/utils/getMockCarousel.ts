@@ -1,4 +1,4 @@
-import type { TechItem } from "../hooks/useCarousel"
+import type { TechItem } from "../../../types/skillsTypes"
 
 export const mockItems: TechItem[] = [
   { name: "React", icon: "devicon-react-original", category: "Frontend" },
