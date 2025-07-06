@@ -10,7 +10,10 @@ export const Skills = ({ techItems, labels }: SkillsProps) => {
   const { title, subtitle } = labels
 
   return (
-    <section className="mx-auto max-w-7xl px-4 text-center md:px-6" id="skills">
+    <section
+      className="mx-auto max-w-7xl scroll-mt-28 px-4 text-center md:px-6"
+      id="skills"
+    >
       <h2 className="animate-fade-in-up font-family-playfair text-gradient-primary pb-6 text-center text-6xl font-bold tracking-tight">
         {title}
       </h2>
