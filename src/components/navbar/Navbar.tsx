@@ -37,7 +37,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               {label}
             </span>
           </Button>
-          <Button size="icon">
+          <Button className="hidden" size="icon">
             <Moon className="h-5 w-5" />
           </Button>
 
