@@ -1,11 +1,11 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import { describe, it, expect, vi, beforeEach } from "vitest"
-import type { TechItem } from "./hooks/useCarousel"
 import { Carousel } from "./Carousel"
 import type { ComponentProps } from "react"
 import { mockItems } from "./utils/getMockCarousel"
 import type { Badge } from "../../../../components/badge/Badge"
 import { type ChevronRight, type ChevronLeft } from "lucide-react"
+import type { TechItem } from "../../types/skillsTypes"
 
 // Mock the Badge component
 vi.mock("../badge/Badge", () => ({
