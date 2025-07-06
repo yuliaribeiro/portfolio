@@ -2,16 +2,44 @@ import "@testing-library/jest-dom"
 import { vi } from "vitest"
 import type * as reactI18next from "react-i18next"
 
+declare global {
+  interface Window {
+    IntersectionObserver: typeof IntersectionObserverMock
+  }
+
+  interface Global {
+    IntersectionObserver: typeof IntersectionObserverMock
+  }
+
+  interface NodeJS {
+    global: typeof globalThis
+  }
+}
+
+// Mock IntersectionObserver
+class IntersectionObserverMock {
+  constructor(
+    // @ts-expect-error: Does not affect project
+    public callback: IntersectionObserverCallback,
+    // @ts-expect-error: Does not affect project
+    public options?: IntersectionObserverInit
+  ) {}
+
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+  takeRecords = vi.fn()
+}
+
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserverMock,
+})
+
 // Mock cn utility
 vi.mock("@/utils", () => ({
   cn: (...classes: string[]) => classes.filter(Boolean).join(" "),
-}))
-
-// Mock useTranslation
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => `translated:${key}`,
-  }),
 }))
 
 // Mock react-i18next
