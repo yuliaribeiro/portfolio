@@ -3,9 +3,8 @@ import { Download } from "lucide-react"
 import type { AboutProps } from "../types/aboutTypes"
 import { Button } from "../../../components/button/Button"
 
-export const About = ({ actions, labels, qrCodeSrc }: AboutProps) => {
+export const About = ({ downloadPath, labels, qrCodeSrc }: AboutProps) => {
   const { sectionInfo, qrCodeInfo, primaryActionLabel } = labels
-  const { primaryAction } = actions
 
   const descriptions = Array.isArray(sectionInfo.descriptions)
     ? (sectionInfo.descriptions as string[])
@@ -23,7 +22,7 @@ export const About = ({ actions, labels, qrCodeSrc }: AboutProps) => {
             <div className="bg-surface-base w-full rounded-3xl p-12 text-center shadow-2xl">
               {/* QR Code Container */}
               <div className="mb-8">
-                <div className="border-accent mx-auto h-64 w-64 rounded-2xl border-2 bg-white p-6 shadow-lg">
+                <div className="border-accent mx-auto h-64 w-64 rounded-2xl border-2 bg-white p-4 shadow-lg">
                   <img
                     src={qrCodeSrc}
                     alt={qrCodeInfo.imageAlt}
@@ -42,9 +41,11 @@ export const About = ({ actions, labels, qrCodeSrc }: AboutProps) => {
               </div>
 
               <div className="space-y-4">
-                <Button hoverEffect={false} onClick={primaryAction}>
-                  <Download size={22} />
-                  {primaryActionLabel}
+                <Button hoverEffect={false} asChild>
+                  <a href={downloadPath} download>
+                    <Download size={22} />
+                    {primaryActionLabel}
+                  </a>
                 </Button>
 
                 {/* Alternative text */}

@@ -58,8 +58,26 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-20px);
+      transform: translateY(-4px);
     }
+  }
+
+  @keyframes gradient-move {
+    0% {
+      background-position: 0% 60%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 60%;
+    }
+  }
+
+  .animate-gradient-x {
+    animation: gradient-move 12s ease infinite;
+    background-size: 200% auto;
+    background-position: 0% 50%;
   }
 
   .animate-fade-in {

@@ -12,12 +12,8 @@ export type AboutLabels = {
   primaryActionLabel: string
 }
 
-export type AboutActions = {
-  primaryAction: () => void
-}
-
 export type AboutProps = {
-  actions: AboutActions
+  downloadPath: string
   labels: AboutLabels
   qrCodeSrc: string
 }
