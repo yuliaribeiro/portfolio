@@ -42,7 +42,12 @@ export const About = ({ downloadPath, labels, qrCodeSrc }: AboutProps) => {
 
               <div className="space-y-4">
                 <Button hoverEffect={false} asChild>
-                  <a href={downloadPath} download>
+                  <a
+                    href={downloadPath}
+                    download="Juliana_Ribeiro.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Download size={22} />
                     {primaryActionLabel}
                   </a>
