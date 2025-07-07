@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Projects } from "./components/Projects"
+import petPlaceLogo from "../../assets/petplace.png"
 
 export const ProjectsSection = () => {
   const { t } = useTranslation("projects")
@@ -10,7 +11,7 @@ export const ProjectsSection = () => {
       title: "PetPlace",
       stacks: ["React", "Docker", "AEM", "Tailwind"],
       link: "https://petplace.com",
-      logo: "src/assets/petplace.png",
+      logo: petPlaceLogo,
     },
     {
       id: "shelterbuddy",
