@@ -1,8 +1,8 @@
-import type { AboutActions, AboutLabels, AboutProps } from "../types/aboutTypes"
+import type { AboutLabels, AboutProps } from "../types/aboutTypes"
 
 type PartialMockData = {
   labels?: Partial<AboutLabels>
-  actions?: Partial<AboutActions>
+  downloadPath?: Partial<Pick<AboutProps, "downloadPath">["downloadPath"]>
   qrCodeSrc?: Partial<Pick<AboutProps, "qrCodeSrc">["qrCodeSrc"]>
 }
 
@@ -26,9 +26,7 @@ export function getMockAboutData(overrides: PartialMockData = {}) {
     primaryActionLabel: "Download CV",
   }
 
-  const defaultActions: AboutActions = {
-    primaryAction: vi.fn(),
-  }
+  const downloadPath: AboutProps["downloadPath"] = "public/cv/random.pdf"
 
   const qrCodeSrc: AboutProps["qrCodeSrc"] = "/images/qr-code-download.png"
 
@@ -37,10 +35,7 @@ export function getMockAboutData(overrides: PartialMockData = {}) {
       ...defaultLabels,
       ...(overrides.labels ?? {}),
     },
-    actions: {
-      ...defaultActions,
-      ...(overrides.actions ?? {}),
-    },
+    downloadPath: overrides.downloadPath ?? downloadPath,
     qrCodeSrc: overrides.qrCodeSrc ?? qrCodeSrc,
   }
 }
