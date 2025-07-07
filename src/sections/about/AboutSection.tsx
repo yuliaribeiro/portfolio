@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next"
 import { About } from "./components/About"
+import { useLanguage } from "../../hooks/useLanguage"
 
 export const AboutSection = () => {
   const { t } = useTranslation("about")
+  const { currentLang } = useLanguage()
 
   const labels = {
     sectionInfo: {
@@ -20,11 +22,10 @@ export const AboutSection = () => {
     primaryActionLabel: t("labels.primaryActionLabel"),
   }
 
-  const qrCodeSrc = "/images/qr-code-download.png"
+  const qrCodeSrc = `src/assets/qr_cv_${currentLang ?? "en"}.png`
+  const downloadPath = `public/cv/Juliana_Ribeiro_${currentLang.toUpperCase() ?? "EN"}.pdf`
 
-  const actions = {
-    primaryAction: () => {},
-  }
-
-  return <About actions={actions} labels={labels} qrCodeSrc={qrCodeSrc} />
+  return (
+    <About downloadPath={downloadPath} labels={labels} qrCodeSrc={qrCodeSrc} />
+  )
 }
