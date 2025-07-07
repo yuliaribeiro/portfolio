@@ -17,6 +17,8 @@ export const HomeSection = () => {
     primaryAction: () => scrollToSection("projects"),
     secondaryAction: () => scrollToSection("contact"),
   }
+  const imgSrc =
+    "https://media.licdn.com/dms/image/v2/C4D03AQEQePkpfhy6hg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1655213510661?e=1757548800&v=beta&t=qUNctIk4bQtu1sZurBQpLk_AO0merTk5xVWOLc9kB3c"
 
-  return <Home actions={actions} labels={labels} />
+  return <Home actions={actions} labels={labels} imgSrc={imgSrc} />
 }

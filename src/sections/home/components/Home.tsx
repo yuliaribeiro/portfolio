@@ -4,9 +4,10 @@ import type { HomeActions, HomeLabels } from "../types/homeTypes"
 type HomeProps = {
   actions: HomeActions
   labels: HomeLabels
+  imgSrc: string
 }
 
-export const Home = ({ actions, labels }: HomeProps) => {
+export const Home = ({ actions, labels, imgSrc }: HomeProps) => {
   const {
     title,
     subtitle,
@@ -22,11 +23,15 @@ export const Home = ({ actions, labels }: HomeProps) => {
       className="mx-auto flex max-w-5xl flex-col items-center justify-center space-y-2 px-6 pt-32 text-center md:pt-24"
     >
       <div className="animate-fade-in mx-auto mt-2 text-center md:mt-4">
-        <div className="animate-float mx-auto h-40 w-40 rounded-full shadow-2xl"></div>
+        <img
+          className="animate-float mx-auto h-40 w-40 rounded-full shadow-2xl"
+          src={imgSrc}
+          alt={`${title} picture`}
+        />
       </div>
 
-      <h1 className="font-family-playfair text-gradient-accent text-gradient-accent animate-slide-up text-6xl leading-normal font-bold tracking-tight">
-        {title}
+      <h1 className="font-family-playfair animate-slide-up text-6xl leading-normal font-bold tracking-tight">
+        <span className="text-gradient-accent animate-gradient-x">{title}</span>
       </h1>
 
       <div className="space-y-8 px-4">
