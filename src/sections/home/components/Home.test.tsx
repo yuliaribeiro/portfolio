@@ -12,10 +12,10 @@ describe("Home", () => {
     vi.clearAllMocks()
   })
 
-  const { labels, actions } = getMockHeroData()
+  const { labels, actions, imgSrc } = getMockHeroData()
 
   it("should render all hero content correctly", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     expect(getByRole("heading", { name: labels.title })).toBeInTheDocument()
     expect(getByText(labels.subtitle)).toBeInTheDocument()
@@ -29,7 +29,7 @@ describe("Home", () => {
   })
 
   it("should render with correct section structure", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const section = document.querySelector("section#home")
     expect(section).toBeInTheDocument()
@@ -49,12 +49,11 @@ describe("Home", () => {
   })
 
   it("should render title with correct classes", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const title = getByRole("heading", { name: labels.title })
     expect(title).toHaveClass(
       "font-family-playfair",
-      "text-gradient-accent",
       "animate-slide-up",
       "text-6xl",
       "leading-normal",
@@ -64,7 +63,7 @@ describe("Home", () => {
   })
 
   it("should render subtitle with correct classes and animation delay", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const subtitle = getByText(labels.subtitle)
     expect(subtitle).toHaveClass(
@@ -78,7 +77,7 @@ describe("Home", () => {
   })
 
   it("should render description with correct classes and animation delay", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const description = getByText(labels.description)
     expect(description).toHaveClass(
@@ -92,7 +91,7 @@ describe("Home", () => {
   })
 
   it("should render floating animation div", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const floatingDiv = document.querySelector(".animate-float")
     expect(floatingDiv).toBeInTheDocument()
@@ -107,7 +106,7 @@ describe("Home", () => {
   })
 
   it("should render buttons with correct variants", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const primaryButton = getByRole("button", {
       name: labels.primaryActionLabel,
@@ -127,7 +126,7 @@ describe("Home", () => {
   })
 
   it("should render buttons container with correct classes and animation delay", () => {
-    getRenderer({ labels, actions })
+    getRenderer({ labels, actions, imgSrc })
 
     const buttonsContainer = document.querySelector(".animate-slide-up.mt-8")
     expect(buttonsContainer).toBeInTheDocument()
@@ -148,7 +147,7 @@ describe("Home", () => {
   describe("button interactions", () => {
     it("should call primary action onClick when clicked", async () => {
       const user = userEvent.setup()
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const primaryButton = getByRole("button", {
         name: labels.primaryActionLabel,
@@ -160,7 +159,7 @@ describe("Home", () => {
 
     it("should call secondary action onClick when clicked", async () => {
       const user = userEvent.setup()
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const secondaryButton = getByRole("button", {
         name: labels.secondaryActionLabel,
@@ -172,7 +171,7 @@ describe("Home", () => {
 
     it("should handle multiple clicks correctly", async () => {
       const user = userEvent.setup()
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const primaryButton = getByRole("button", {
         name: labels.primaryActionLabel,
@@ -206,7 +205,7 @@ describe("Home", () => {
         },
       })
 
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       expect(getByRole("heading", { name: labels.title })).toBeInTheDocument()
       expect(getByText(labels.subtitle)).toBeInTheDocument()
@@ -230,7 +229,7 @@ describe("Home", () => {
         },
       })
 
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       expect(getByRole("heading")).toHaveTextContent("")
       const buttons = screen.getAllByRole("button")
@@ -251,7 +250,7 @@ describe("Home", () => {
         },
       })
 
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       expect(getByRole("heading", { name: labels.title })).toBeInTheDocument()
       expect(getByText(labels.subtitle)).toBeInTheDocument()
@@ -267,7 +266,7 @@ describe("Home", () => {
 
   describe("accessibility", () => {
     it("should have proper heading hierarchy", () => {
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const heading = getByRole("heading", { level: 1 })
       expect(heading).toBeInTheDocument()
@@ -275,7 +274,7 @@ describe("Home", () => {
     })
 
     it("should have accessible button labels", () => {
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const primaryButton = getByRole("button", {
         name: labels.primaryActionLabel,
@@ -291,14 +290,14 @@ describe("Home", () => {
 
   describe("responsive design", () => {
     it("should have responsive classes for button container", () => {
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const container = document.querySelector(".flex-col-reverse")
       expect(container).toHaveClass("flex-col-reverse", "md:flex-row")
     })
 
     it("should have responsive spacing classes", () => {
-      getRenderer({ labels, actions })
+      getRenderer({ labels, actions, imgSrc })
 
       const fadeInContainer = document.querySelector(".animate-fade-in")
       expect(fadeInContainer).toHaveClass("mt-2", "md:mt-4")
