@@ -11,7 +11,7 @@ export const About = ({ downloadPath, labels, qrCodeSrc }: AboutProps) => {
     : []
 
   return (
-    <section id="about" className="bg-brand-primary/5 w-full">
+    <section id="about" className="bg-surface-elevation w-full">
       <div className="mx-auto max-w-7xl px-4 py-28 md:px-6">
         <h2 className="animate-fade-in-up font-family-playfair text-gradient-primary pb-20 text-center text-6xl font-bold tracking-tight">
           {sectionInfo.title}
