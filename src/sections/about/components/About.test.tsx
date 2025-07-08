@@ -166,7 +166,7 @@ describe("About Component", () => {
     it("should apply layout classes to #about section", () => {
       const { container } = getRenderer({ ...mockData })
       const section = container.querySelector("#about")
-      expect(section).toHaveClass("bg-brand-primary/5", "w-full")
+      expect(section).toHaveClass("bg-surface-elevation", "w-full")
     })
   })
 })

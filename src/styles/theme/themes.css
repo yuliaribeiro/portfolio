@@ -10,13 +10,18 @@
   --color-foreground-muted: var(--color-neutral-600);
   --color-surface: var(--color-neutral-100);
   --color-surface-base: var(--color-neutral-50);
+  --color-surface-elevation: color-mix(
+    in srgb,
+    var(--color-teal-800),
+    white 95%
+  );
 }
 
 @layer base {
   /* -------- SEMANTIC COLOR TOKENS (DARK THEME) -------- */
   .dark {
     --color-accent: var(--color-yellow-300);
-    --color-brand-primary: var(--color-blue-900);
+    --color-brand-primary: color-mix(in srgb, var(--color-blue-900), white 30%);
     --color-brand-secondary: var(--color-teal-700);
     --color-caption: var(--color-yellow-300);
     --color-error: var(--color-orange-400);
@@ -25,5 +30,10 @@
     --color-foreground-muted: var(--color-neutral-400);
     --color-surface: var(--color-neutral-950);
     --color-surface-base: var(--color-neutral-900);
+    --color-surface-elevation: color-mix(
+      in srgb,
+      var(--color-blue-900),
+      black 90%
+    );
   }
 }

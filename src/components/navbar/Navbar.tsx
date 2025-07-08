@@ -1,9 +1,10 @@
 import * as React from "react"
 import { cn } from "../../utils"
 import { Button } from "../button/Button"
-import { Languages, Moon } from "lucide-react"
+import { Languages, Moon, Sun } from "lucide-react"
 import { useState } from "react"
 import { useLanguage } from "../../hooks/useLanguage"
+import { useTheme } from "../../hooks/useTheme"
 
 type NavItem = {
   label: string
@@ -20,8 +21,10 @@ type NavbarProps = React.HTMLAttributes<HTMLElement> & {
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
   ({ className, logo, items, activeSection, onItemClick, ...props }, ref) => {
     const { toggleLanguage, label } = useLanguage()
-
+    const { theme, toggleTheme } = useTheme()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    const isDarkMode = theme === "dark"
 
     const handleItemClick = (sectionId: string) => {
       onItemClick?.(sectionId)
@@ -37,8 +40,12 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               {label}
             </span>
           </Button>
-          <Button className="hidden" size="icon">
-            <Moon className="h-5 w-5" />
+          <Button size="icon" onClick={toggleTheme}>
+            {isDarkMode ? (
+              <Moon className="h-5 w-5" />
+            ) : (
+              <Sun className="h-5 w-5" />
+            )}
           </Button>
 
           {/* Mobile Menu Button */}

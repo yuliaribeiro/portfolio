@@ -62,7 +62,7 @@ describe("Projects", () => {
       getRenderer()
 
       const section = document.getElementById("projects")
-      expect(section).toHaveClass("bg-brand-primary/5", "w-full")
+      expect(section).toHaveClass("bg-surface-elevation", "w-full")
     })
   })
 

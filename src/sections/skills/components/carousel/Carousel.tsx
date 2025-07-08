@@ -32,7 +32,7 @@ export function Carousel({ items }: CarouselProps) {
       onMouseLeave={resumeAutoplay}
     >
       {/* Carousel Container */}
-      <div className="bg-surface-base overflow-hidden rounded-3xl px-18 shadow-2xl">
+      <div className="bg-surface-elevation overflow-hidden rounded-3xl px-18 shadow-2xl">
         {/* Carousel Content */}
         <div className="relative flex h-75 items-center justify-center md:h-80">
           <div className={"grid w-full grid-cols-2 gap-3 md:grid-cols-7"}>
