@@ -5,29 +5,29 @@ import { Languages, Moon, Sun } from "lucide-react"
 import { useState } from "react"
 import { useLanguage } from "../../hooks/useLanguage"
 import { useTheme } from "../../hooks/useTheme"
-
-type NavItem = {
-  label: string
-  sectionId: string
-}
+import { useScrollNavigation } from "../../hooks/useScrollNavigation"
+import { navItems } from "../../config/nav.config"
+import { useActiveSection } from "../../hooks/useActiveSection"
 
 type NavbarProps = React.HTMLAttributes<HTMLElement> & {
   logo?: React.ReactNode
-  items: readonly NavItem[]
-  activeSection?: string
-  onItemClick?: (sectionId: string) => void
 }
 
 export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
-  ({ className, logo, items, activeSection, onItemClick, ...props }, ref) => {
+  ({ className, logo, ...props }, ref) => {
     const { toggleLanguage, label } = useLanguage()
     const { theme, toggleTheme } = useTheme()
+
+    const scrollToSection = useScrollNavigation()
+    const sectionIds = navItems.map((item) => item.sectionId)
+    const activeSection = useActiveSection(sectionIds)
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const isDarkMode = theme === "dark"
 
     const handleItemClick = (sectionId: string) => {
-      onItemClick?.(sectionId)
+      scrollToSection(sectionId)
       setIsMenuOpen(false)
     }
 
@@ -102,9 +102,9 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
           {/* Navigation Items - Desktop */}
           <div className="flex items-center gap-4">
-            {items && (
+            {navItems && (
               <div className="mr-4 hidden items-center gap-3 md:flex md:gap-10">
-                {items.map((item) => (
+                {navItems.map((item) => (
                   <button
                     key={item.sectionId}
                     onClick={() => handleItemClick(item.sectionId)}
@@ -129,7 +129,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         </div>
 
         {/* Mobile Menu */}
-        {items && (
+        {navItems && (
           <div
             className={cn(
               "border-brand-primary/20 overflow-hidden border-t transition-all duration-500 ease-in-out md:hidden",
@@ -139,7 +139,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             )}
           >
             <div className="flex flex-col space-y-4">
-              {items.map((item, index) => (
+              {navItems.map((item, index) => (
                 <button
                   key={item.sectionId}
                   onClick={() => handleItemClick(item.sectionId)}
